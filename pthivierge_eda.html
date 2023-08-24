@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<!-- saved from url=(0080)file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/pthivierge_eda.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+
+<meta name="generator" content="pandoc">
+
+
+
+
+<title></title>
+
+<script src="./pthivierge_eda_files/jquery.min.js.télécharger"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="./pthivierge_eda_files/cerulean.min.css" rel="stylesheet">
+<script src="./pthivierge_eda_files/bootstrap.min.js.télécharger"></script>
+<script src="./pthivierge_eda_files/html5shiv.min.js.télécharger"></script>
+<script src="./pthivierge_eda_files/respond.min.js.télécharger"></script>
+<script src="./pthivierge_eda_files/tabsets.js.télécharger"></script>
+<link href="./pthivierge_eda_files/default.css" rel="stylesheet">
+<script src="./pthivierge_eda_files/highlight.js.télécharger"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+<script type="text/javascript" src="./pthivierge_eda_files/MathJax.js.télécharger"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><style type="text/css">.MathJax_Display {text-align: center; margin: 1em 0em; position: relative; display: block!important; text-indent: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; width: 100%}
+.MathJax .merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MathJax .MJX-monospace {font-family: monospace}
+.MathJax .MJX-sans-serif {font-family: sans-serif}
+#MathJax_Tooltip {background-color: InfoBackground; color: InfoText; border: 1px solid black; box-shadow: 2px 2px 5px #AAAAAA; -webkit-box-shadow: 2px 2px 5px #AAAAAA; -moz-box-shadow: 2px 2px 5px #AAAAAA; -khtml-box-shadow: 2px 2px 5px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true'); padding: 3px 4px; z-index: 401; position: absolute; left: 0; top: 0; width: auto; height: auto; display: none}
+.MathJax {display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; padding: 0; margin: 0}
+.MathJax:focus, body :focus .MathJax {display: inline-table}
+.MathJax.MathJax_FullWidth {text-align: center; display: table-cell!important; width: 10000em!important}
+.MathJax img, .MathJax nobr, .MathJax a {border: 0; padding: 0; margin: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+img.MathJax_strut {border: 0!important; padding: 0!important; margin: 0!important; vertical-align: 0!important}
+.MathJax span {display: inline; position: static; border: 0; padding: 0; margin: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+.MathJax nobr {white-space: nowrap!important}
+.MathJax img {display: inline!important; float: none!important}
+.MathJax * {transition: none; -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none}
+.MathJax_Processing {visibility: hidden; position: fixed; width: 0; height: 0; overflow: hidden}
+.MathJax_Processed {display: none!important}
+.MathJax_ExBox {display: block!important; overflow: hidden; width: 1px; height: 60ex; min-height: 0; max-height: none}
+.MathJax .MathJax_EmBox {display: block!important; overflow: hidden; width: 1px; height: 60em; min-height: 0; max-height: none}
+.MathJax_LineBox {display: table!important}
+.MathJax_LineBox span {display: table-cell!important; width: 10000em!important; min-width: 0; max-width: none; padding: 0; border: 0; margin: 0}
+.MathJax .MathJax_HitBox {cursor: text; background: white; opacity: 0; filter: alpha(opacity=0)}
+.MathJax .MathJax_HitBox * {filter: none; opacity: 1; background: transparent}
+#MathJax_Tooltip * {filter: none; opacity: 1; background: transparent}
+@font-face {font-family: MathJax_Main; src: url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/woff/MathJax_Main-Regular.woff?V=2.7.2') format('woff'), url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/otf/MathJax_Main-Regular.otf?V=2.7.2') format('opentype')}
+@font-face {font-family: MathJax_Main-bold; src: url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/woff/MathJax_Main-Bold.woff?V=2.7.2') format('woff'), url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/otf/MathJax_Main-Bold.otf?V=2.7.2') format('opentype')}
+@font-face {font-family: MathJax_Main-italic; src: url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/woff/MathJax_Main-Italic.woff?V=2.7.2') format('woff'), url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/otf/MathJax_Main-Italic.otf?V=2.7.2') format('opentype')}
+@font-face {font-family: MathJax_Math-italic; src: url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/woff/MathJax_Math-Italic.woff?V=2.7.2') format('woff'), url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/otf/MathJax_Math-Italic.otf?V=2.7.2') format('opentype')}
+@font-face {font-family: MathJax_Caligraphic; src: url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/woff/MathJax_Caligraphic-Regular.woff?V=2.7.2') format('woff'), url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/otf/MathJax_Caligraphic-Regular.otf?V=2.7.2') format('opentype')}
+@font-face {font-family: MathJax_Size1; src: url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/woff/MathJax_Size1-Regular.woff?V=2.7.2') format('woff'), url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/otf/MathJax_Size1-Regular.otf?V=2.7.2') format('opentype')}
+@font-face {font-family: MathJax_Size2; src: url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/woff/MathJax_Size2-Regular.woff?V=2.7.2') format('woff'), url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/otf/MathJax_Size2-Regular.otf?V=2.7.2') format('opentype')}
+@font-face {font-family: MathJax_Size3; src: url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/woff/MathJax_Size3-Regular.woff?V=2.7.2') format('woff'), url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/otf/MathJax_Size3-Regular.otf?V=2.7.2') format('opentype')}
+@font-face {font-family: MathJax_Size4; src: url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/woff/MathJax_Size4-Regular.woff?V=2.7.2') format('woff'), url('https://mathjax.rstudio.com/latest/fonts/HTML-CSS/TeX/otf/MathJax_Size4-Regular.otf?V=2.7.2') format('opentype')}
+.MathJax .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+
+<body><div style="visibility: hidden; overflow: hidden; position: absolute; top: 0px; height: 1px; width: auto; padding: 0px; border: 0px; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal;"><div id="MathJax_Hidden"></div></div><div id="MathJax_Message" style="display: none;"></div>
+
+<style type="text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<div id="red-white-wine-quality-exploratory-data-analysis" class="section level1">
+<h1>RED &amp; WHITE WINE QUALITY<br>
+EXPLORATORY DATA ANALYSIS</h1>
+<div class="figure">
+<img src="./pthivierge_eda_files/wine_analysis.jpg">
+
+</div>
+<p>by Pascal Thivierge</p>
+<hr>
+<div id="the-objective-of-this-analysis" class="section level2">
+<h2>The Objective of this Analysis</h2>
+<p>According to <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/%5B1%5D">Statistics Canada</a>, even if Canadians still prefer beer, the market share of other types of alcoholic beverages, including wine, continues to grow. During the year ending March 31 2016, wine represented a market worth of 7 trillion dollars, or 4.1% more than the previous year.</p>
+<p>A survey conducted in 2013 by the firm Laithwaite’s Wine, which was the subject of an article in <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/%5B2%5D">The Telegraph</a> in the same year, reveals that more than half of the 1000 respondents say that the descriptors used by wine professionals do not help to understand the taste of wine. Almost two-thirds of respondents considered that the descriptions on the counter-labels did not correspond to their own sensory analysis.</p>
+<p>Although professional tasters have countless perceptions, the limited number of wine descriptors make the design of their appraisals rather abstract. Yet, despite the high rate of variability in the results of these assessments, they remain a key factor in the awarding of the price of a bottle.</p>
+<p>Also playing an important role in the production of wine, laboratory physico- chemical tests take into account the acidity, pH, presence of sugar and other chemical properties. It could be beneficial for the wine industry in Canada to relate human assessments to the chemical properties of wines in order to better control the certification and quality.</p>
+<hr>
+</div>
+<div id="about-the-dataset" class="section level2">
+<h2>About the dataset</h2>
+<p>The two datasets are related to red and white variants of the Portuguese “Vinho Verde” wine. For more details, consult the <a href="http://www.vinhoverde.pt/en/">www.vinhoverde.pt</a> website or the reference [Cortez et al., 2009]. Due to privacy and logistic issues, only physicochemical (inputs) and sensory (the output) variables are available (e.g.&nbsp;there is no data about grape types, wine brand, wine selling price, etc.).</p>
+<hr>
+</div>
+<div id="the-analysis" class="section level2">
+<h2>The Analysis</h2>
+<div id="load-the-data" class="section level3">
+<h3>1. Load the Data</h3>
+<p>In order to analyze both types of wine at the same time, it is necessary to pair the two sets of data and add the “color” categorical variable before doing so.</p>
+</div>
+<div id="summary-of-the-dataset" class="section level3">
+<h3>2. Summary of the Dataset</h3>
+<p>Display first observations :</p>
+<pre><code class="hljs">##   X fixed.acidity volatile.acidity citric.acid residual.sugar chlorides
+## 1 1           7.4             0.70        0.00            1.9     0.076
+## 2 2           7.8             0.88        0.00            2.6     0.098
+## 3 3           7.8             0.76        0.04            2.3     0.092
+## 4 4          11.2             0.28        0.56            1.9     0.075
+## 5 5           7.4             0.70        0.00            1.9     0.076
+## 6 6           7.4             0.66        0.00            1.8     0.075
+##   free.sulfur.dioxide total.sulfur.dioxide density   pH sulphates alcohol
+## 1                  11                   34  0.9978 3.51      0.56     9.4
+## 2                  25                   67  0.9968 3.20      0.68     9.8
+## 3                  15                   54  0.9970 3.26      0.65     9.8
+## 4                  17                   60  0.9980 3.16      0.58     9.8
+## 5                  11                   34  0.9978 3.51      0.56     9.4
+## 6                  13                   40  0.9978 3.51      0.56     9.4
+##   quality color
+## 1       5   red
+## 2       5   red
+## 3       5   red
+## 4       6   red
+## 5       5   red
+## 6       5   red</code></pre>
+<p>Display last observations :</p>
+<pre><code class="hljs">##         X fixed.acidity volatile.acidity citric.acid residual.sugar
+## 6492 4893           6.5             0.23        0.38            1.3
+## 6493 4894           6.2             0.21        0.29            1.6
+## 6494 4895           6.6             0.32        0.36            8.0
+## 6495 4896           6.5             0.24        0.19            1.2
+## 6496 4897           5.5             0.29        0.30            1.1
+## 6497 4898           6.0             0.21        0.38            0.8
+##      chlorides free.sulfur.dioxide total.sulfur.dioxide density   pH
+## 6492     0.032                  29                  112 0.99298 3.29
+## 6493     0.039                  24                   92 0.99114 3.27
+## 6494     0.047                  57                  168 0.99490 3.15
+## 6495     0.041                  30                  111 0.99254 2.99
+## 6496     0.022                  20                  110 0.98869 3.34
+## 6497     0.020                  22                   98 0.98941 3.26
+##      sulphates alcohol quality color
+## 6492      0.54     9.7       5 white
+## 6493      0.50    11.2       6 white
+## 6494      0.46     9.6       5 white
+## 6495      0.46     9.4       6 white
+## 6496      0.38    12.8       7 white
+## 6497      0.32    11.8       6 white</code></pre>
+<p>Dimensions for red wine observations :</p>
+<pre><code class="hljs">## [1] 1599   14</code></pre>
+<p>Dimensions for white wine observations :</p>
+<pre><code class="hljs">## [1] 4898   14</code></pre>
+<p>In order to make the names of the variables a bit more tidy, I will rename them in order to better group them and be able to complement them easily.</p>
+<p>Original variable names :</p>
+<pre><code class="hljs">##  [1] "X"                    "fixed.acidity"        "volatile.acidity"    
+##  [4] "citric.acid"          "residual.sugar"       "chlorides"           
+##  [7] "free.sulfur.dioxide"  "total.sulfur.dioxide" "density"             
+## [10] "pH"                   "sulphates"            "alcohol"             
+## [13] "quality"              "color"</code></pre>
+<p>New variable names :</p>
+<pre><code class="hljs">##  [1] "id"            "acid.fixed"    "acid.volatile" "acid.citric"  
+##  [5] "RS"            "NaCl"          "SO2.free"      "SO2.total"    
+##  [9] "density"       "pH"            "K2SO4"         "ABV"          
+## [13] "wine.quality"  "wine.color"</code></pre>
+<p>The different attributes and their units of measure are listed in the text file provided with the dataset.</p>
+<p>Several variables referring to a volume were expressed in g/dm<sup>3</sup>, in mg/dm<sup>3</sup> or in g/cm<sup>3</sup>, which is equivalent to g/L, mg/L, and g/mL, respectively. Due to their use in a more common way, I will be using these last units in my exploratory analysis.</p>
+<table class="table table-condensed">
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+<th>Unit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>acid.fixed</td>
+<td>Fixed acidity expressed as tartaric acid</td>
+<td>g/L</td>
+</tr>
+<tr class="even">
+<td>acid.volatile</td>
+<td>Volatile acidity expressed as acetic acid</td>
+<td>g/L</td>
+</tr>
+<tr class="odd">
+<td>acid.citric</td>
+<td>Citric acid</td>
+<td>g/L</td>
+</tr>
+<tr class="even">
+<td>RS</td>
+<td>Residual sugar</td>
+<td>g/L</td>
+</tr>
+<tr class="odd">
+<td>NaCl</td>
+<td>Sodium chlorides</td>
+<td>g/L</td>
+</tr>
+<tr class="even">
+<td>SO2.free</td>
+<td>Free sulfur dioxide</td>
+<td>mg/L</td>
+</tr>
+<tr class="odd">
+<td>SO2.total</td>
+<td>Total sulfur dioxide</td>
+<td>mg/L</td>
+</tr>
+<tr class="even">
+<td>density</td>
+<td>Volumetric density</td>
+<td>g/mL)</td>
+</tr>
+<tr class="odd">
+<td>pH</td>
+<td>Potential of hydrogen</td>
+<td>pH index</td>
+</tr>
+<tr class="even">
+<td>K2SO4</td>
+<td>Potassium sulfates</td>
+<td>g/L</td>
+</tr>
+<tr class="odd">
+<td>ABV</td>
+<td>Alcohol content</td>
+<td>% by volume</td>
+</tr>
+<tr class="even">
+<td>wine.quality*</td>
+<td>Based on sensory data</td>
+<td>Score between 0 and 10</td>
+</tr>
+</tbody>
+</table>
+<p>*Output variable</p>
+<p>The summary statistics table below allows for better overview of the variables for each type of wine.</p>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<caption>
+Summary Statistics for Red Wines
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+vars
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+min
+</th>
+<th style="text-align:right;">
+max
+</th>
+<th style="text-align:right;">
+range
+</th>
+<th style="text-align:right;">
+se
+</th>
+<th style="text-align:right;">
+IQR
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+acid.fixed
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1599
+</td>
+<td style="text-align:right;">
+8.3196373
+</td>
+<td style="text-align:right;">
+1.7410963
+</td>
+<td style="text-align:right;">
+4.60000
+</td>
+<td style="text-align:right;">
+15.90000
+</td>
+<td style="text-align:right;">
+11.30000
+</td>
+<td style="text-align:right;">
+0.0435410
+</td>
+<td style="text-align:right;">
+2.100000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+acid.volatile
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1599
+</td>
+<td style="text-align:right;">
+0.5278205
+</td>
+<td style="text-align:right;">
+0.1790597
+</td>
+<td style="text-align:right;">
+0.12000
+</td>
+<td style="text-align:right;">
+1.58000
+</td>
+<td style="text-align:right;">
+1.46000
+</td>
+<td style="text-align:right;">
+0.0044779
+</td>
+<td style="text-align:right;">
+0.250000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+acid.citric
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1599
+</td>
+<td style="text-align:right;">
+0.2709756
+</td>
+<td style="text-align:right;">
+0.1948011
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:right;">
+1.00000
+</td>
+<td style="text-align:right;">
+1.00000
+</td>
+<td style="text-align:right;">
+0.0048716
+</td>
+<td style="text-align:right;">
+0.330000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RS
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+1599
+</td>
+<td style="text-align:right;">
+2.5388055
+</td>
+<td style="text-align:right;">
+1.4099281
+</td>
+<td style="text-align:right;">
+0.90000
+</td>
+<td style="text-align:right;">
+15.50000
+</td>
+<td style="text-align:right;">
+14.60000
+</td>
+<td style="text-align:right;">
+0.0352592
+</td>
+<td style="text-align:right;">
+0.700000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NaCl
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1599
+</td>
+<td style="text-align:right;">
+0.0874665
+</td>
+<td style="text-align:right;">
+0.0470653
+</td>
+<td style="text-align:right;">
+0.01200
+</td>
+<td style="text-align:right;">
+0.61100
+</td>
+<td style="text-align:right;">
+0.59900
+</td>
+<td style="text-align:right;">
+0.0011770
+</td>
+<td style="text-align:right;">
+0.020000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SO2.free
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+1599
+</td>
+<td style="text-align:right;">
+15.8749218
+</td>
+<td style="text-align:right;">
+10.4601570
+</td>
+<td style="text-align:right;">
+1.00000
+</td>
+<td style="text-align:right;">
+72.00000
+</td>
+<td style="text-align:right;">
+71.00000
+</td>
+<td style="text-align:right;">
+0.2615857
+</td>
+<td style="text-align:right;">
+14.000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SO2.total
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1599
+</td>
+<td style="text-align:right;">
+46.4677924
+</td>
+<td style="text-align:right;">
+32.8953245
+</td>
+<td style="text-align:right;">
+6.00000
+</td>
+<td style="text-align:right;">
+289.00000
+</td>
+<td style="text-align:right;">
+283.00000
+</td>
+<td style="text-align:right;">
+0.8226402
+</td>
+<td style="text-align:right;">
+40.000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+density
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1599
+</td>
+<td style="text-align:right;">
+0.9967467
+</td>
+<td style="text-align:right;">
+0.0018873
+</td>
+<td style="text-align:right;">
+0.99007
+</td>
+<td style="text-align:right;">
+1.00369
+</td>
+<td style="text-align:right;">
+0.01362
+</td>
+<td style="text-align:right;">
+0.0000472
+</td>
+<td style="text-align:right;">
+0.002235
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pH
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+1599
+</td>
+<td style="text-align:right;">
+3.3111132
+</td>
+<td style="text-align:right;">
+0.1543865
+</td>
+<td style="text-align:right;">
+2.74000
+</td>
+<td style="text-align:right;">
+4.01000
+</td>
+<td style="text-align:right;">
+1.27000
+</td>
+<td style="text-align:right;">
+0.0038609
+</td>
+<td style="text-align:right;">
+0.190000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+K2SO4
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+1599
+</td>
+<td style="text-align:right;">
+0.6581488
+</td>
+<td style="text-align:right;">
+0.1695070
+</td>
+<td style="text-align:right;">
+0.33000
+</td>
+<td style="text-align:right;">
+2.00000
+</td>
+<td style="text-align:right;">
+1.67000
+</td>
+<td style="text-align:right;">
+0.0042390
+</td>
+<td style="text-align:right;">
+0.180000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ABV
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+1599
+</td>
+<td style="text-align:right;">
+10.4229831
+</td>
+<td style="text-align:right;">
+1.0656676
+</td>
+<td style="text-align:right;">
+8.40000
+</td>
+<td style="text-align:right;">
+14.90000
+</td>
+<td style="text-align:right;">
+6.50000
+</td>
+<td style="text-align:right;">
+0.0266500
+</td>
+<td style="text-align:right;">
+1.600000
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<caption>
+Summary Statistics for White Wines
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+vars
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+min
+</th>
+<th style="text-align:right;">
+max
+</th>
+<th style="text-align:right;">
+range
+</th>
+<th style="text-align:right;">
+se
+</th>
+<th style="text-align:right;">
+IQR
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+acid.fixed
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4898
+</td>
+<td style="text-align:right;">
+6.8547877
+</td>
+<td style="text-align:right;">
+0.8438682
+</td>
+<td style="text-align:right;">
+3.80000
+</td>
+<td style="text-align:right;">
+14.20000
+</td>
+<td style="text-align:right;">
+10.40000
+</td>
+<td style="text-align:right;">
+0.0120577
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+acid.volatile
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+4898
+</td>
+<td style="text-align:right;">
+0.2782411
+</td>
+<td style="text-align:right;">
+0.1007945
+</td>
+<td style="text-align:right;">
+0.08000
+</td>
+<td style="text-align:right;">
+1.10000
+</td>
+<td style="text-align:right;">
+1.02000
+</td>
+<td style="text-align:right;">
+0.0014402
+</td>
+<td style="text-align:right;">
+0.1100000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+acid.citric
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+4898
+</td>
+<td style="text-align:right;">
+0.3341915
+</td>
+<td style="text-align:right;">
+0.1210198
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+<td style="text-align:right;">
+1.66000
+</td>
+<td style="text-align:right;">
+1.66000
+</td>
+<td style="text-align:right;">
+0.0017292
+</td>
+<td style="text-align:right;">
+0.1200000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RS
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4898
+</td>
+<td style="text-align:right;">
+6.3914149
+</td>
+<td style="text-align:right;">
+5.0720578
+</td>
+<td style="text-align:right;">
+0.60000
+</td>
+<td style="text-align:right;">
+65.80000
+</td>
+<td style="text-align:right;">
+65.20000
+</td>
+<td style="text-align:right;">
+0.0724728
+</td>
+<td style="text-align:right;">
+8.2000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NaCl
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+4898
+</td>
+<td style="text-align:right;">
+0.0457724
+</td>
+<td style="text-align:right;">
+0.0218480
+</td>
+<td style="text-align:right;">
+0.00900
+</td>
+<td style="text-align:right;">
+0.34600
+</td>
+<td style="text-align:right;">
+0.33700
+</td>
+<td style="text-align:right;">
+0.0003122
+</td>
+<td style="text-align:right;">
+0.0140000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SO2.free
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+4898
+</td>
+<td style="text-align:right;">
+35.3080849
+</td>
+<td style="text-align:right;">
+17.0071373
+</td>
+<td style="text-align:right;">
+2.00000
+</td>
+<td style="text-align:right;">
+289.00000
+</td>
+<td style="text-align:right;">
+287.00000
+</td>
+<td style="text-align:right;">
+0.2430087
+</td>
+<td style="text-align:right;">
+23.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SO2.total
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+4898
+</td>
+<td style="text-align:right;">
+138.3606574
+</td>
+<td style="text-align:right;">
+42.4980646
+</td>
+<td style="text-align:right;">
+9.00000
+</td>
+<td style="text-align:right;">
+440.00000
+</td>
+<td style="text-align:right;">
+431.00000
+</td>
+<td style="text-align:right;">
+0.6072391
+</td>
+<td style="text-align:right;">
+59.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+density
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+4898
+</td>
+<td style="text-align:right;">
+0.9940274
+</td>
+<td style="text-align:right;">
+0.0029909
+</td>
+<td style="text-align:right;">
+0.98711
+</td>
+<td style="text-align:right;">
+1.03898
+</td>
+<td style="text-align:right;">
+0.05187
+</td>
+<td style="text-align:right;">
+0.0000427
+</td>
+<td style="text-align:right;">
+0.0043775
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pH
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+4898
+</td>
+<td style="text-align:right;">
+3.1882666
+</td>
+<td style="text-align:right;">
+0.1510006
+</td>
+<td style="text-align:right;">
+2.72000
+</td>
+<td style="text-align:right;">
+3.82000
+</td>
+<td style="text-align:right;">
+1.10000
+</td>
+<td style="text-align:right;">
+0.0021576
+</td>
+<td style="text-align:right;">
+0.1900000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+K2SO4
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+4898
+</td>
+<td style="text-align:right;">
+0.4898469
+</td>
+<td style="text-align:right;">
+0.1141258
+</td>
+<td style="text-align:right;">
+0.22000
+</td>
+<td style="text-align:right;">
+1.08000
+</td>
+<td style="text-align:right;">
+0.86000
+</td>
+<td style="text-align:right;">
+0.0016307
+</td>
+<td style="text-align:right;">
+0.1400000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ABV
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+4898
+</td>
+<td style="text-align:right;">
+10.5142670
+</td>
+<td style="text-align:right;">
+1.2306206
+</td>
+<td style="text-align:right;">
+8.00000
+</td>
+<td style="text-align:right;">
+14.20000
+</td>
+<td style="text-align:right;">
+6.20000
+</td>
+<td style="text-align:right;">
+0.0175839
+</td>
+<td style="text-align:right;">
+1.9000000
+</td>
+</tr>
+</tbody>
+</table>
+<p>The large difference between the range values and IQR indicates there is outliers in nearly every variables, for both red and white wines.</p>
+<pre><code class="hljs">## 'data.frame':    6497 obs. of  14 variables:
+##  $ id           : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ acid.fixed   : num  7.4 7.8 7.8 11.2 7.4 7.4 7.9 7.3 7.8 7.5 ...
+##  $ acid.volatile: num  0.7 0.88 0.76 0.28 0.7 0.66 0.6 0.65 0.58 0.5 ...
+##  $ acid.citric  : num  0 0 0.04 0.56 0 0 0.06 0 0.02 0.36 ...
+##  $ RS           : num  1.9 2.6 2.3 1.9 1.9 1.8 1.6 1.2 2 6.1 ...
+##  $ NaCl         : num  0.076 0.098 0.092 0.075 0.076 0.075 0.069 0.065 0.073 0.071 ...
+##  $ SO2.free     : num  11 25 15 17 11 13 15 15 9 17 ...
+##  $ SO2.total    : num  34 67 54 60 34 40 59 21 18 102 ...
+##  $ density      : num  0.998 0.997 0.997 0.998 0.998 ...
+##  $ pH           : num  3.51 3.2 3.26 3.16 3.51 3.51 3.3 3.39 3.36 3.35 ...
+##  $ K2SO4        : num  0.56 0.68 0.65 0.58 0.56 0.56 0.46 0.47 0.57 0.8 ...
+##  $ ABV          : num  9.4 9.8 9.8 9.8 9.4 9.4 9.4 10 9.5 10.5 ...
+##  $ wine.quality : int  5 5 5 6 5 5 5 7 7 5 ...
+##  $ wine.color   : chr  "red" "red" "red" "red" ...</code></pre>
+<p>As the variable “wine.quality” is a score variable, I will factor it into a new variable : wine.quality.factor.</p>
+<pre><code class="hljs">## [1] "3" "4" "5" "6" "7" "8" "9"</code></pre>
+<hr>
+</div>
+<div id="understanding-the-distribution-of-variables" class="section level3">
+<h3>3. Understanding the Distribution of Variables</h3>
+<p>In order to better understand the different attributes of the wines analyzed, I will support the reported facts with explanations from scientific publications or other recognized publications in the field of wines.</p>
+<div id="quality" class="section level4">
+<h4>Quality</h4>
+<p>This variable is the main feature of the dataset. We will use it to determine the effects of supporting variables over the quality of wine.</p>
+<p>It is based on sensory data and it is the median of at least 3 evaluations made by wine experts, which graded the wine quality between 0 (very bad) and 10 (very excellent).</p>
+<p>The British Colombia Amateur Winemakers Association has put to our disposition a <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/%5B13%5D">Wine Score Sheet</a> which will help to better understand the importance given by wine professionals to the different evaluation criteria and how the underlying relationships influence their decisions.</p>
+<p>Summary of wine.quality variable (red wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   3.000   5.000   6.000   5.636   6.000   8.000</code></pre>
+<p>Count of each grade in wine.quality variable (red wines) :</p>
+<pre><code class="hljs">## wine.quality
+##   3   4   5   6   7   8 
+##  10  53 681 638 199  18</code></pre>
+<p>Summary of wine.quality variable (white wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   3.000   5.000   6.000   5.878   6.000   9.000</code></pre>
+<p>Count of each grade in wine.quality variable (white wines) :</p>
+<pre><code class="hljs">## wine.quality
+##    3    4    5    6    7    8    9 
+##   20  163 1457 2198  880  175    5</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/Wine_Quality_Score_Frequency-1.png" width="672"></p>
+<p>Although the two datasets are very different in size, it is still possible to see some similarities in the distribution of observations on the quality scale, for example, a higher concentration of wines judged to be average than wines judged to be excellent or of poor quality.</p>
+<p>Density plot :</p>
+<p><img src="./pthivierge_eda_files/Wine_Quality_Densityplot-1.png" width="672"></p>
+<p>Compared proportionately, the density of the quality attributed to the observations is similar for the two datasets. Specifically, the density of results for ratings 3 and 4 is roughly the same, a high concentration for ratings 5 and 6, a moderately high density for rating 7, and a low representation in ratings 8 and 9.</p>
+<p>It is noted, however, that the rating 5 obtains a higher density for red wines. For their part, the white wines stand out greatly for ratings 6, 7, 8 and 9, the latter being simply non-existent for red wines.</p>
+<p>In view of these differences, it would be appropriate to create three quality categories in order to obtain less granularity in some plots. Grade 3 and 4 will be considered “poor”, 5 and 6, “Average”, while grade 7 and higher, “Good”.</p>
+<pre><code class="hljs">## [1] "Poor"    "Average" "Good"</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/Wine_Quality_Bucket_Frequency-1.png" width="672"></p>
+<p>The graphs above show that there are still more good wines than poor, whether it be red wines or white wines.</p>
+</div>
+<div id="acids" class="section level4">
+<h4>Acids</h4>
+<div id="fixed-acidity" class="section level5">
+<h5>Fixed Acidity</h5>
+<p>Found in significant concentrations in grape vines, tartaric acid plays a prominent role in winemaking, as it maintains the chemical stability of the wine, by lowering the pH of fermenting “must” to a level where many undesirable spoilage bacteria cannot live, and acting as a preservative after fermentation. It also preserve color and influences the taste of the finished product.</p>
+<p>Summary of acid.fixed variable (red wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    4.60    7.10    7.90    8.32    9.20   15.90</code></pre>
+<p>Summary of acid.fixed variable (white wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   3.800   6.300   6.800   6.855   7.300  14.200</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/Fixed_Acidity_Frequency_Plots-1.png" width="672"></p>
+<p>The fixed acidity distribution for red wine has a positive skew with many outliers at the tail, while the one of white wine is more symmetric, still with a positive skew and many outliers at both head and tail.</p>
+<p>Data transformation is needed to rectify the normality of both distributions. Since many variables use metric units to measure volume, the cube root should be best suited.</p>
+<pre class="r"><code class="hljs">cuberoot_trans = <span class="hljs-keyword">function</span>() trans_new(<span class="hljs-string">'cuberoot'</span>, 
+                                      transform = <span class="hljs-keyword">function</span>(x) x^(<span class="hljs-number">1</span>/<span class="hljs-number">3</span>),
+                                      inverse = <span class="hljs-keyword">function</span>(x) x^<span class="hljs-number">3</span>)</code></pre>
+<p>Transformation :</p>
+<p><img src="./pthivierge_eda_files/Fixed_Acidity_LogNormal_Plots-1.png" width="672"></p>
+<p>The cube root transformation gives an almost normal result.</p>
+</div>
+<div id="volatile-acidity" class="section level5">
+<h5>Volatile Acidity</h5>
+<p>The most volatile of the primary acids associated with wine, acetic acid is a two-carbon organic acid produced in wine during or after the fermentation period and is responsible for the sour taste of vinegar. It can be contributed by many wine spoilage yeasts and bacteria.</p>
+<p>Summary of acid.volatile variable (red wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.1200  0.3900  0.5200  0.5278  0.6400  1.5800</code></pre>
+<p>Summary of acid.volatile variable (white wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.0800  0.2100  0.2600  0.2782  0.3200  1.1000</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/Volatile_Acidity_Plots-1.png" width="672"></p>
+<p>The volatile acidity distribution for red wine is positively skewed, with some outliers at the tail. The same is true for white wines, but with more outliers at the tail.</p>
+<p>The composition of red wines is quite different from that of the white wines and this translates into the plots above by the big difference between the median concentration of volatile acids of each type of wine.</p>
+<p>Transformation :</p>
+<p><img src="./pthivierge_eda_files/Volatile_Acidity_LogNormal_Plot-1.png" width="672"></p>
+<p>The cube root transformation gives an almost normal result.</p>
+</div>
+<div id="va-sensory-thresholds" class="section level5">
+<h5>VA Sensory Thresholds</h5>
+<p>According to <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/%5B10%5D">Lambrechts and Pretorius</a> (2000), the sensory threshold for volatile acid could be as low as 0.4 g/L and a small amount of VA under this threshold is believed to add complexity to a wine, while it is usually regarded as detrimental at concentration over 0.7 g/L.</p>
+<p>Using these levels to create a categorical variable could be helpful with some plots later, with concentration under 0.4 g/L to be considered “desirable”, between 0.4 g/L and 0.7 g/L, “Detectable”, and over 0.7 g/L, “unpleasant”.</p>
+<pre><code class="hljs">## [1] "Unpleasant" "Detectable" "Desirable"</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/VolatileAcid_Sensory_Freq_Plots-1.png" width="672"></p>
+<p>There is a significant difference in the distribution of volatile acidity detection range relatively to the quality of red wines. Notice how the “good” wine quality bucket distribution of VA sensory detection range shows a greater proportion of “desirable”, while combined proportions of observations that fall under “detectable” or “unpleasant” range represent a major part for both “poor” and “average” wine quality.</p>
+<p>This variable seems to have a little to no impact for white wines, with the same pattern for the three quality buckets.</p>
+</div>
+<div id="citric-acid" class="section level5">
+<h5>Citric Acid</h5>
+<p>Found only in very minute quantities in wine grapes, citric acid often has a concentration about 1/20 that of tartaric acid. It can be used as supplement to boost the wine’s total acidity, but less frequently, due to its microbial instability and the aggressive flavors it can add to the wine.</p>
+<p>Summary of acid.citric variable (red wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   0.090   0.260   0.271   0.420   1.000</code></pre>
+<p>Summary of acid.citric variable (white wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.0000  0.2700  0.3200  0.3342  0.3900  1.6600</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/Citric_Acidity_Plots-1.png" width="672"></p>
+<p>The citric acid distribution for red wine has a great variance, while the one of white wine is normal with a slight positive skew.</p>
+<p>The peaks in both plots capted my attention, as they occur precisely at intervals of 0.25 g/L. The use of citric acid supplements could potentially be the reason behind.</p>
+<p>Naturally, grapes citric acidity ranges from 0.1 to 0.7, but in both distributions many wines have no citric acid at all, particularly in that of red wines.</p>
+<p>Transformation :</p>
+<p><img src="./pthivierge_eda_files/Citric_Acid_LogNormal_Plot-1.png" width="672"></p>
+<p>The result of the cube root transformation reveals a bimodal distribution for red wines. The creation of a categorical variable based on these two modes will be useful in multivariate exploration.</p>
+<pre><code class="hljs">## [1] "Low"  "High"</code></pre>
+</div>
+<div id="acid-taste-index" class="section level5">
+<h5>Acid Taste Index</h5>
+<p>The article <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/pthivierge_eda.html">An Acidity Index for the Taste of Wines</a>, published in volume 31 issue 3 of the <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/8">American Journal of Enology and Viticulture</a> (1980), establishes that, in the acid region of wine, acid taste is primarily dependent on total acidity, secondarily on pH, and at most indirectly on total buffer concentration.</p>
+<p>The authors defined an acidity index whose values can be obtained with the following calculation :</p>
+<p><span class="math display"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><div class="MathJax_Display" style="text-align: center;"><span class="MathJax" id="MathJax-Element-1-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;mi&gt;I&lt;/mi&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;mi&gt;d&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;msub&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mi&gt;T&lt;/mi&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;g&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo&gt;/&lt;/mo&gt;&lt;/mrow&gt;&lt;mi&gt;L&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mi&gt;p&lt;/mi&gt;&lt;mi&gt;H&lt;/mi&gt;&lt;/math&gt;" role="presentation" style="text-align: center; position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-1" style="width: 13.515em; display: inline-block;"><span style="display: inline-block; position: relative; width: 11.253em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.253em, 1011.25em, 2.622em, -999.997em); top: -2.199em; left: 0em;"><span class="mrow" id="MathJax-Span-2"><span class="mi" id="MathJax-Span-3" style="font-family: MathJax_Math-italic;">I<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.063em;"></span></span><span class="mi" id="MathJax-Span-4" style="font-family: MathJax_Math-italic;">n</span><span class="mi" id="MathJax-Span-5" style="font-family: MathJax_Math-italic;">d<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="mi" id="MathJax-Span-6" style="font-family: MathJax_Math-italic;">i</span><span class="mi" id="MathJax-Span-7" style="font-family: MathJax_Math-italic;">c</span><span class="msubsup" id="MathJax-Span-8"><span style="display: inline-block; position: relative; width: 0.896em; height: 0px;"><span style="position: absolute; clip: rect(3.396em, 1000.42em, 4.17em, -999.997em); top: -3.985em; left: 0em;"><span class="mi" id="MathJax-Span-9" style="font-family: MathJax_Math-italic;">e</span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; top: -3.807em; left: 0.479em;"><span class="texatom" id="MathJax-Span-10"><span class="mrow" id="MathJax-Span-11"><span class="mi" id="MathJax-Span-12" style="font-size: 70.7%; font-family: MathJax_Math-italic;">a</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span><span class="mo" id="MathJax-Span-13" style="font-family: MathJax_Main; padding-left: 0.301em;">=</span><span class="mi" id="MathJax-Span-14" style="font-family: MathJax_Math-italic; padding-left: 0.301em;">T<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.122em;"></span></span><span class="mi" id="MathJax-Span-15" style="font-family: MathJax_Math-italic;">A</span><span class="mo" id="MathJax-Span-16" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-17" style="font-family: MathJax_Math-italic;">g<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="texatom" id="MathJax-Span-18"><span class="mrow" id="MathJax-Span-19"><span class="mo" id="MathJax-Span-20" style="font-family: MathJax_Main;">/</span></span></span><span class="mi" id="MathJax-Span-21" style="font-family: MathJax_Math-italic;">L</span><span class="mo" id="MathJax-Span-22" style="font-family: MathJax_Main;">)</span><span class="mo" id="MathJax-Span-23" style="font-family: MathJax_Main; padding-left: 0.241em;">−</span><span class="mi" id="MathJax-Span-24" style="font-family: MathJax_Math-italic; padding-left: 0.241em;">p</span><span class="mi" id="MathJax-Span-25" style="font-family: MathJax_Math-italic;">H<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.063em;"></span></span></span><span style="display: inline-block; width: 0px; height: 2.205em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.354em; border-left: 0px solid; width: 0px; height: 1.361em;"></span></span></nobr><span class="MJX_Assistive_MathML MJX_Assistive_MathML_Block" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>I</mi><mi>n</mi><mi>d</mi><mi>i</mi><mi>c</mi><msub><mi>e</mi><mrow class="MJX-TeXAtom-ORD"><mi>a</mi></mrow></msub><mo>=</mo><mi>T</mi><mi>A</mi><mo stretchy="false">(</mo><mi>g</mi><mrow class="MJX-TeXAtom-ORD"><mo>/</mo></mrow><mi>L</mi><mo stretchy="false">)</mo><mo>−</mo><mi>p</mi><mi>H</mi></math></span></span></div><script type="math/tex; mode=display" id="MathJax-Element-1">
+Indice_{a} = TA (g/L) - pH
+</script></span></p>
+<p>Before using this formula, a measurement of “total acidity” (TA), which includes fixed and volatile acids, is needed.</p>
+<pre class="r"><code class="hljs"><span class="hljs-comment"># Create a new variable for total acidity</span>
+WQ$acid.total &lt;- WQ$acid.fixed + WQ$acid.volatile</code></pre>
+<pre class="r"><code class="hljs">WQ$acid.index &lt;- WQ$acid.total - WQ$pH</code></pre>
+<p>Summary of acid.index variable (red wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   1.220   4.282   5.190   5.536   6.492  13.335</code></pre>
+<p>Summary of acid.index variable (white wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.360   3.350   3.890   3.945   4.490  11.320</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/Acidity_Index_Frequency_Plots-1.png" width="672"></p>
+<p>Transformation :</p>
+<p><img src="./pthivierge_eda_files/AcidTasteIndex_LogNormal_Plot-1.png" width="672"></p>
+<p>The cube root transformation gives an almost normal result.</p>
+</div>
+</div>
+<div id="residual-sugar" class="section level4">
+<h4>Residual Sugar</h4>
+<p>During the process of fermentation, sugars from wine grapes are broken down and converted by yeast into alcohol (ethanol) and carbon dioxide. But, not all sugars are fermentable : some sugars like the five-carbon arabinose, rhamnose and xylose are still present in the wine after fermentation.</p>
+<p>As a very high sugar content kills the yeast once a certain alcohol content is reached, no wine is ever fermented completely without any residual sugar.</p>
+<p>Summary of RS variable (red wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.900   1.900   2.200   2.539   2.600  15.500</code></pre>
+<p>Summary of RS variable (white wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.600   1.700   5.200   6.391   9.900  65.800</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/RS_Frequency_Plots-1.png" width="672"></p>
+<p>Looking at the plot above, it is clear that none of the wine samples have no residual sugar. The red wines distribution start at 0.9 g/L, while the white wines start at 0.6 g/L.</p>
+<p>The residual sugar distribution for both wine colors is positively skewed, but whites have a lot more variance.</p>
+<p>Transformation :</p>
+<p><img src="./pthivierge_eda_files/RS_LogNormal_Plot-1.png" width="672"></p>
+<p>The result of the transformation clearly reveals a multimodal distribution for white wines. It seems there are two major modes, but there seems to be two minor modes within the larger one.</p>
+<div id="charting-sweetness" class="section level5">
+<h5>Charting sweetness</h5>
+<p>According to European Union commission regulation <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/%5B9%5D">No. 607/2009</a>, the terms “dry”, “medium dry”, “medium” and “sweet” may be used on the labels of table wines and quality wines to describe their sweetness.</p>
+<p>Dry : sugar content does not exceed 4&nbsp;grams per litre, or 9&nbsp;grams per litre, provided that the total acidity expressed as grams of tartaric acid per litre is not more than 2&nbsp;grams below the residual sugar content.</p>
+<p>Medium dry : sugar content exceeds the maximum set at above but not exceeds 12&nbsp;grams per litre, or 18&nbsp;grams per litre, provided that the total acidity expressed as grams of tartaric acid per litre is not more than 10&nbsp;grams below the residual sugar content.</p>
+<p>Medium : sugar content is higher than the maximum set at above but not more than 45&nbsp;grams per litre.</p>
+<p>Sweet : sugar content is of at least 45&nbsp;grams per litre.</p>
+<p>The above ranges allows to obtain a well-defined categorique variable.</p>
+<pre><code class="hljs">## [1] "Dry"        "Medium Dry" "Medium"     "Sweet"</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/Sweetness_Frequency_Plots-1.png" width="672"></p>
+<p>Notice that since there is a single observation of sweet wine, with a sugar content of 65,8 g/L, I did not show the “sweet” wine type.</p>
+<p>Although the previous categories represent the current regulations, it would be more appropriate to keep only the two main modes, namely “dry” and “sweet”.</p>
+<pre><code class="hljs">## [1] "Dry"   "Sweet"</code></pre>
+</div>
+</div>
+<div id="sodium-chloride" class="section level4">
+<h4>Sodium Chloride</h4>
+<p>A <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/%5B4%5D">recent study</a> states that terroir and grape variety influence the concentration of chlorides in the wine. Wine with higher levels is most likely to come from a country where irrigation is carried out using salty water or in areas with brackish terrains. Additionally, some grape varieties, like Syrah, are most likely to absorb those chlorides.</p>
+<p>The most successful wine grape varieties in <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/%5B5%5D">Vinho Verde region</a> are Alvarinho and Loureiro for white ones and Vinhão, followed by Azal Tinto and Espadeiro for the red ones.</p>
+<p>Summary of NaCl variable (red wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## 0.01200 0.07000 0.07900 0.08747 0.09000 0.61100</code></pre>
+<p>Summary of NaCl variable (white wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## 0.00900 0.03600 0.04300 0.04577 0.05000 0.34600</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/Chlorides_Frequency_Plots-1.png" width="672"></p>
+<p>For both wine colors, the distribution is positively skewed. However, the median chloride concentration for red wine is 0.079 g/L, while the white wine is a little lower, at 0.43 g/L.</p>
+<p>An article published in volume 65 issue 1 of the <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/9">American Journal of Enology and Viticulture</a> (2013) reports that a significant proportion of wine consumers may detect salt in wines, even at low concentrations.</p>
+<p>Since the dataset does not provide the age of the panelists, I cannot use the results of this study to determine the threshold of detection of each wine.</p>
+<p>Transformation :</p>
+<p><img src="./pthivierge_eda_files/NaCl_LogNormal_Plot-1.png" width="672"></p>
+<p>The cube root transformation gives an almost normal result.</p>
+</div>
+<div id="sulfur-dioxide" class="section level4">
+<h4>Sulfur Dioxide</h4>
+<p>There are two primary sources of sulfur dioxide, or SO<sub>2</sub>, in wine. One source is from yeast, the other is from additions made by winemakers, such as potassium metabisulfite, wich dissociate in water to potassium ions(K<sup>+</sup>) and singly inonised bisulfite (HSO<sub>3</sub>)-.</p>
+<div id="total-sulfur-dioxide-free-and-bound" class="section level5">
+<h5>Total Sulfur Dioxide (free and bound)</h5>
+<p>The total SO<sub>2</sub> is the sum of free and bound SO<sub>2</sub>, as shown in the figure below.</p>
+<div class="figure">
+<img src="./pthivierge_eda_files/SO2total.gif" width="640">
+
+</div>
+<p>Illustration by <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/www.brsquared.org/wine/Articles/SO2/SO2.htm">Ben Rotter</a></p>
+<p>Summary of SO2.total variable (red wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    6.00   22.00   38.00   46.47   62.00  289.00</code></pre>
+<p>Summary of SO2.total variable (white wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##     9.0   108.0   134.0   138.4   167.0   440.0</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/Total_SO2_Frequency_Plots-1.png" width="672"></p>
+<p>The difference between the two plots above makes a lot of sens when taking in account the distinct winemaking processes of red and white wine.</p>
+<p>Indeed, the positively skewed distribution of red wines shows low total SO<sub>2</sub> median value of 38 mg/L. Even if conventional winemakers add some sulfur dioxide, red wines do not need any because they naturally contain anti-oxidants, acquired from their skins and stems during fermentation.</p>
+<p>Because grapes flesh is not left in contact with their skins after crushing, white wines are more prone to oxidation and tend to be given larger doses of sulfur dioxide. The distribution of white wines is also positively skewed, but it shows, in addition to its greater variance, a much higher median value, with 134 mg/L.</p>
+<p>Transformation :</p>
+<p><img src="./pthivierge_eda_files/TotalSO2_LogNormal_Plot-1.png" width="672"></p>
+<p>The cube root transformation gives an almost normal result.</p>
+</div>
+<div id="free-sulfur-dioxide" class="section level5">
+<h5>Free Sulfur Dioxide</h5>
+<p>As illustrated in the figure below, depending on the pH of the wine, the free sulfur dioxide may exist in three chemical forms : the molecular SO<sub>2</sub> (as a dissolved gas), bisulfite ion HSO<sub>3</sub><sup>-</sup> and sulfite ion SO<sub>3</sub><sup>–</sup>.</p>
+<div class="figure">
+<img src="./pthivierge_eda_files/SO2vspH.png" width="640">
+
+</div>
+<p>Illustration by <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/www.brsquared.org/wine/Articles/SO2/SO2.htm">Ben Rotter</a></p>
+<p>In its sulfite form, SO<sub>2</sub> is typically odourless and tasteless.</p>
+<p>At wine pHs, bisulfite ion is the predominant form of free SO<sub>2</sub>, providing an insignificant antiseptic affect on yeasts, while the quantity of SO<sub>2</sub> in the sulphite form is minute and reacts very slowly with oxygen. It is odourless, but has a salty and bitter taste.</p>
+<p>Existing as either a gas or as single molecule, the molecular form is the most important form of SO<sub>2</sub> in wine and primarily serves as an antibiotic and antioxidant. It may be perceived as a pungent odor at high concentrations.</p>
+<p>Summary of SO2.free variable (red wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1.00    7.00   14.00   15.87   21.00   72.00</code></pre>
+<p>Summary of SO2.free variable (white wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    2.00   23.00   34.00   35.31   46.00  289.00</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/Free_SO2_Frequency_Plots-1.png" width="672"></p>
+<p>There are many outliers at tail of both distributions, and I removed an extreme outlier in white wine to better compare both distributions.</p>
+<p>The positively skewed distribution of red wines shows low free SO<sub>2</sub> median value of 14 mg/L, while that of white wine, also positively skewed, shows median value of 34 mg/L.</p>
+<p>Transformation :</p>
+<p><img src="./pthivierge_eda_files/FreeSO2_LogNormal_Plot-1.png" width="672"></p>
+<p>The result of the transformation reveals a multimodal distribution for red wines, while an almost normal one for whites.</p>
+</div>
+<div id="molecular-sulfur-dioxide" class="section level5">
+<h5>Molecular Sulfur Dioxide</h5>
+<p>The dataset provides us with the free and total sulfur dioxide measurements, as well as the pH of the wine, which is necessary to calculate the active part of free sulfur dioxide.</p>
+<p>The molecular SO<sub>2</sub> level can be extrapolated by using this formula :</p>
+<p><span class="math display"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><div class="MathJax_Display" style="text-align: center;"><span class="MathJax" id="MathJax-Element-2-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;mi&gt;M&lt;/mi&gt;&lt;mi&gt;o&lt;/mi&gt;&lt;mi&gt;l&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mi&gt;u&lt;/mi&gt;&lt;mi&gt;l&lt;/mi&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mi&gt;S&lt;/mi&gt;&lt;msub&gt;&lt;mi&gt;O&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi&gt;S&lt;/mi&gt;&lt;msub&gt;&lt;mi&gt;O&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo&gt;/&lt;/mo&gt;&lt;/mrow&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;msup&gt;&lt;mn&gt;10&lt;/mn&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;p&lt;/mi&gt;&lt;mi&gt;H&lt;/mi&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1.81&lt;/mn&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation" style="text-align: center; position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-26" style="width: 23.158em; display: inline-block;"><span style="display: inline-block; position: relative; width: 19.289em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.074em, 1019.17em, 2.622em, -999.997em); top: -2.199em; left: 0em;"><span class="mrow" id="MathJax-Span-27"><span class="mi" id="MathJax-Span-28" style="font-family: MathJax_Math-italic;">M<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.063em;"></span></span><span class="mi" id="MathJax-Span-29" style="font-family: MathJax_Math-italic;">o</span><span class="mi" id="MathJax-Span-30" style="font-family: MathJax_Math-italic;">l</span><span class="mi" id="MathJax-Span-31" style="font-family: MathJax_Math-italic;">e</span><span class="mi" id="MathJax-Span-32" style="font-family: MathJax_Math-italic;">c</span><span class="mi" id="MathJax-Span-33" style="font-family: MathJax_Math-italic;">u</span><span class="mi" id="MathJax-Span-34" style="font-family: MathJax_Math-italic;">l</span><span class="mi" id="MathJax-Span-35" style="font-family: MathJax_Math-italic;">a</span><span class="mi" id="MathJax-Span-36" style="font-family: MathJax_Math-italic;">r</span><span class="mi" id="MathJax-Span-37" style="font-family: MathJax_Math-italic;">S<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.063em;"></span></span><span class="msubsup" id="MathJax-Span-38"><span style="display: inline-block; position: relative; width: 1.193em; height: 0px;"><span style="position: absolute; clip: rect(3.098em, 1000.72em, 4.17em, -999.997em); top: -3.985em; left: 0em;"><span class="mi" id="MathJax-Span-39" style="font-family: MathJax_Math-italic;">O</span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; top: -3.807em; left: 0.777em;"><span class="texatom" id="MathJax-Span-40"><span class="mrow" id="MathJax-Span-41"><span class="mn" id="MathJax-Span-42" style="font-size: 70.7%; font-family: MathJax_Main;">2</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span><span class="mo" id="MathJax-Span-43" style="font-family: MathJax_Main; padding-left: 0.301em;">=</span><span class="mi" id="MathJax-Span-44" style="font-family: MathJax_Math-italic; padding-left: 0.301em;">F<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.122em;"></span></span><span class="mi" id="MathJax-Span-45" style="font-family: MathJax_Math-italic;">r</span><span class="mi" id="MathJax-Span-46" style="font-family: MathJax_Math-italic;">e</span><span class="mi" id="MathJax-Span-47" style="font-family: MathJax_Math-italic;">e</span><span class="mi" id="MathJax-Span-48" style="font-family: MathJax_Math-italic;">S<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.063em;"></span></span><span class="msubsup" id="MathJax-Span-49"><span style="display: inline-block; position: relative; width: 1.193em; height: 0px;"><span style="position: absolute; clip: rect(3.098em, 1000.72em, 4.17em, -999.997em); top: -3.985em; left: 0em;"><span class="mi" id="MathJax-Span-50" style="font-family: MathJax_Math-italic;">O</span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; top: -3.807em; left: 0.777em;"><span class="texatom" id="MathJax-Span-51"><span class="mrow" id="MathJax-Span-52"><span class="mn" id="MathJax-Span-53" style="font-size: 70.7%; font-family: MathJax_Main;">2</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span><span class="texatom" id="MathJax-Span-54"><span class="mrow" id="MathJax-Span-55"><span class="mo" id="MathJax-Span-56" style="font-family: MathJax_Main;">/</span></span></span><span class="mo" id="MathJax-Span-57" style="font-family: MathJax_Main;">(</span><span class="mn" id="MathJax-Span-58" style="font-family: MathJax_Main;">1</span><span class="mo" id="MathJax-Span-59" style="font-family: MathJax_Main; padding-left: 0.241em;">+</span><span class="msubsup" id="MathJax-Span-60" style="padding-left: 0.241em;"><span style="display: inline-block; position: relative; width: 4.408em; height: 0px;"><span style="position: absolute; clip: rect(3.158em, 1000.96em, 4.17em, -999.997em); top: -3.985em; left: 0em;"><span class="mn" id="MathJax-Span-61" style="font-family: MathJax_Main;">10</span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; top: -4.402em; left: 1.015em;"><span class="texatom" id="MathJax-Span-62"><span class="mrow" id="MathJax-Span-63"><span class="mo" id="MathJax-Span-64" style="font-size: 70.7%; font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-65" style="font-size: 70.7%; font-family: MathJax_Math-italic;">p</span><span class="mi" id="MathJax-Span-66" style="font-size: 70.7%; font-family: MathJax_Math-italic;">H<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.063em;"></span></span><span class="mo" id="MathJax-Span-67" style="font-size: 70.7%; font-family: MathJax_Main;">−</span><span class="mn" id="MathJax-Span-68" style="font-size: 70.7%; font-family: MathJax_Main;">1.81</span><span class="mo" id="MathJax-Span-69" style="font-size: 70.7%; font-family: MathJax_Main;">)</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span><span class="mo" id="MathJax-Span-70" style="font-family: MathJax_Main;">)</span></span><span style="display: inline-block; width: 0px; height: 2.205em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.354em; border-left: 0px solid; width: 0px; height: 1.575em;"></span></span></nobr><span class="MJX_Assistive_MathML MJX_Assistive_MathML_Block" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>M</mi><mi>o</mi><mi>l</mi><mi>e</mi><mi>c</mi><mi>u</mi><mi>l</mi><mi>a</mi><mi>r</mi><mi>S</mi><msub><mi>O</mi><mrow class="MJX-TeXAtom-ORD"><mn>2</mn></mrow></msub><mo>=</mo><mi>F</mi><mi>r</mi><mi>e</mi><mi>e</mi><mi>S</mi><msub><mi>O</mi><mrow class="MJX-TeXAtom-ORD"><mn>2</mn></mrow></msub><mrow class="MJX-TeXAtom-ORD"><mo>/</mo></mrow><mo stretchy="false">(</mo><mn>1</mn><mo>+</mo><msup><mn>10</mn><mrow class="MJX-TeXAtom-ORD"><mo stretchy="false">(</mo><mi>p</mi><mi>H</mi><mo>−</mo><mn>1.81</mn><mo stretchy="false">)</mo></mrow></msup><mo stretchy="false">)</mo></math></span></span></div><script type="math/tex; mode=display" id="MathJax-Element-2">
+Molecular SO_{2} = Free SO_{2} / ( 1 + 10^{(pH - 1.81)} )
+</script></span></p>
+<p>In the calculation above, a pK value of 1.81 is adopted. According to <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/%5B11%5D">Ben Rotter’s article</a> on sulfur dioxide, this is a widely used value, and will be used to create the SO2.molecular variable :</p>
+<pre class="r"><code class="hljs"><span class="hljs-comment"># Create a new variable for molecular SO2</span>
+WQ$SO2.molecular &lt;- WQ$SO2.free / (WQ$density + (<span class="hljs-number">10</span>^(WQ$pH - <span class="hljs-number">1.81</span>)))</code></pre>
+<p>Summary of SO2.molecular variable (red wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.0245  0.2346  0.3932  0.5053  0.6668  3.3645</code></pre>
+<p>Summary of SO2.molecular variable (white wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## 0.09351 0.85233 1.31347 1.49035 1.95321 9.32567</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/Molecular_SO2_Frequency_Plots-1.png" width="672"></p>
+<p>As for total and free SO<sub>2</sub>, the molecular SO<sub>2</sub> distribution is positively skewed, for both red and white wines, with many outliers at the tail.</p>
+<p>The median value for red wines is 0.39 mg/L, while white wine show a much higher value, with 1.31 mg/L.</p>
+<p>Transformation :</p>
+<p><img src="./pthivierge_eda_files/MolecularSO2_LogNormal_Plot-1.png" width="672"></p>
+<p>The cube root transformation gives an almost normal result.</p>
+</div>
+<div id="bacterial-protection" class="section level5">
+<h5>Bacterial Protection</h5>
+<p>As a rule-of-thumb, control of biological stability is generally obtained with molecular SO<sub>2</sub> levels ranging from 0.5 mg/L to 1.5 mg/L, with 0.5 mg/L providing sufficient protection for red wines and 0.8 mg/L required for white wines.</p>
+<p>Une variable catégorique utilisant les ranges ci-dessus pourrait s’avérer être très utile pour comparer les niveaux de protection du vin.</p>
+<p>For red wines : a “very low” level under 0.25 mg/L, “low” between 0.25 mg/L and 0.5 mg/l, “correct” between 0.5 mg/L and 2 mg/L, and finally, “high” for values above 2 mg/L.</p>
+<p>For white wines : a “very low” level under 0.4 mg/L, “low” between 0.4 mg/L and 0.8 mg/l, “correct” between 0.8 mg/L and 2 mg/L, and finally, “high” for values above 2 mg/L.</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.0245  0.5637  1.0569  1.2479  1.7186  9.3257</code></pre>
+<pre><code class="hljs">## [1] "Very Low"   "Low"        "Sufficient" "High"</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/SO2Protection_Quality_Frequency-1.png" width="672"></p>
+<p>Looking at the plots above, it is clear that red and white wines do not have the same SO2 protection needs. Indeed, red wine gets more observations in the ranges “low” and “very low” than “sufficient” and “high”, while it’s quite the opposite for white wine.</p>
+</div>
+<div id="bound-sulfur-dioxide" class="section level5">
+<h5>Bound Sulfur Dioxide</h5>
+<p>The bound sulfur dioxide is that portion of SO<sub>2</sub> added to the wine that has bonded with various binding compounds. The primary SO<sub>2</sub> compounds found in wine are acetaldehyde and phenolics. The amount of SO<sub>2</sub> bound up is predominantly dependent on the concentration of the binding compounds present in wine. The binding renders that portion of SO<sub>2</sub> inactive.</p>
+<p>The follwing equation describes how to obtain the bound SO<sub>2</sub> concentration :</p>
+<p><span class="math display"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><div class="MathJax_Display" style="text-align: center;"><span class="MathJax" id="MathJax-Element-3-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;mi&gt;B&lt;/mi&gt;&lt;mi&gt;o&lt;/mi&gt;&lt;mi&gt;u&lt;/mi&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;mi&gt;d&lt;/mi&gt;&lt;mi&gt;S&lt;/mi&gt;&lt;msub&gt;&lt;mi&gt;O&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mi&gt;T&lt;/mi&gt;&lt;mi&gt;o&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;l&lt;/mi&gt;&lt;mi&gt;S&lt;/mi&gt;&lt;msub&gt;&lt;mi&gt;O&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi&gt;S&lt;/mi&gt;&lt;msub&gt;&lt;mi&gt;O&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation" style="text-align: center; position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-71" style="width: 18.872em; display: inline-block;"><span style="display: inline-block; position: relative; width: 15.717em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.313em, 1015.72em, 2.562em, -999.997em); top: -2.199em; left: 0em;"><span class="mrow" id="MathJax-Span-72"><span class="mi" id="MathJax-Span-73" style="font-family: MathJax_Math-italic;">B</span><span class="mi" id="MathJax-Span-74" style="font-family: MathJax_Math-italic;">o</span><span class="mi" id="MathJax-Span-75" style="font-family: MathJax_Math-italic;">u</span><span class="mi" id="MathJax-Span-76" style="font-family: MathJax_Math-italic;">n</span><span class="mi" id="MathJax-Span-77" style="font-family: MathJax_Math-italic;">d<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="mi" id="MathJax-Span-78" style="font-family: MathJax_Math-italic;">S<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.063em;"></span></span><span class="msubsup" id="MathJax-Span-79"><span style="display: inline-block; position: relative; width: 1.193em; height: 0px;"><span style="position: absolute; clip: rect(3.098em, 1000.72em, 4.17em, -999.997em); top: -3.985em; left: 0em;"><span class="mi" id="MathJax-Span-80" style="font-family: MathJax_Math-italic;">O</span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; top: -3.807em; left: 0.777em;"><span class="texatom" id="MathJax-Span-81"><span class="mrow" id="MathJax-Span-82"><span class="mn" id="MathJax-Span-83" style="font-size: 70.7%; font-family: MathJax_Main;">2</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span><span class="mo" id="MathJax-Span-84" style="font-family: MathJax_Main; padding-left: 0.301em;">=</span><span class="mi" id="MathJax-Span-85" style="font-family: MathJax_Math-italic; padding-left: 0.301em;">T<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.122em;"></span></span><span class="mi" id="MathJax-Span-86" style="font-family: MathJax_Math-italic;">o</span><span class="mi" id="MathJax-Span-87" style="font-family: MathJax_Math-italic;">t</span><span class="mi" id="MathJax-Span-88" style="font-family: MathJax_Math-italic;">a</span><span class="mi" id="MathJax-Span-89" style="font-family: MathJax_Math-italic;">l</span><span class="mi" id="MathJax-Span-90" style="font-family: MathJax_Math-italic;">S<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.063em;"></span></span><span class="msubsup" id="MathJax-Span-91"><span style="display: inline-block; position: relative; width: 1.193em; height: 0px;"><span style="position: absolute; clip: rect(3.098em, 1000.72em, 4.17em, -999.997em); top: -3.985em; left: 0em;"><span class="mi" id="MathJax-Span-92" style="font-family: MathJax_Math-italic;">O</span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; top: -3.807em; left: 0.777em;"><span class="texatom" id="MathJax-Span-93"><span class="mrow" id="MathJax-Span-94"><span class="mn" id="MathJax-Span-95" style="font-size: 70.7%; font-family: MathJax_Main;">2</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span><span class="mo" id="MathJax-Span-96" style="font-family: MathJax_Main; padding-left: 0.241em;">−</span><span class="mi" id="MathJax-Span-97" style="font-family: MathJax_Math-italic; padding-left: 0.241em;">F<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.122em;"></span></span><span class="mi" id="MathJax-Span-98" style="font-family: MathJax_Math-italic;">r</span><span class="mi" id="MathJax-Span-99" style="font-family: MathJax_Math-italic;">e</span><span class="mi" id="MathJax-Span-100" style="font-family: MathJax_Math-italic;">e</span><span class="mi" id="MathJax-Span-101" style="font-family: MathJax_Math-italic;">S<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.063em;"></span></span><span class="msubsup" id="MathJax-Span-102"><span style="display: inline-block; position: relative; width: 1.193em; height: 0px;"><span style="position: absolute; clip: rect(3.098em, 1000.72em, 4.17em, -999.997em); top: -3.985em; left: 0em;"><span class="mi" id="MathJax-Span-103" style="font-family: MathJax_Math-italic;">O</span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; top: -3.807em; left: 0.777em;"><span class="texatom" id="MathJax-Span-104"><span class="mrow" id="MathJax-Span-105"><span class="mn" id="MathJax-Span-106" style="font-size: 70.7%; font-family: MathJax_Main;">2</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.205em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.282em; border-left: 0px solid; width: 0px; height: 1.146em;"></span></span></nobr><span class="MJX_Assistive_MathML MJX_Assistive_MathML_Block" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>B</mi><mi>o</mi><mi>u</mi><mi>n</mi><mi>d</mi><mi>S</mi><msub><mi>O</mi><mrow class="MJX-TeXAtom-ORD"><mn>2</mn></mrow></msub><mo>=</mo><mi>T</mi><mi>o</mi><mi>t</mi><mi>a</mi><mi>l</mi><mi>S</mi><msub><mi>O</mi><mrow class="MJX-TeXAtom-ORD"><mn>2</mn></mrow></msub><mo>−</mo><mi>F</mi><mi>r</mi><mi>e</mi><mi>e</mi><mi>S</mi><msub><mi>O</mi><mrow class="MJX-TeXAtom-ORD"><mn>2</mn></mrow></msub></math></span></span></div><script type="math/tex; mode=display" id="MathJax-Element-3">
+Bound SO_{2} = Total SO_{2} - Free SO_{2}
+</script></span></p>
+<p>Creating a new variable for bound SO<sub>2</sub> could be useful later to find correlations :</p>
+<pre class="r"><code class="hljs"><span class="hljs-comment"># Create a new variable for bound SO2</span>
+WQ$SO2.bound &lt;- WQ$SO2.total - WQ$SO2.free</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/Bound_SO2_Frequency_Plots-1.png" width="672"></p>
+<p>Transformation :</p>
+<p><img src="./pthivierge_eda_files/BoundSO2_LogNormal_Plot-1.png" width="672"></p>
+<p>The cube root transformation gives an almost normal result.</p>
+</div>
+</div>
+<div id="density" class="section level4">
+<h4>Density</h4>
+<p>The volumetric mass density of wine is proportional to the content that composes it, like sugar content.</p>
+<p>Summary of density variable (red wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.9901  0.9956  0.9968  0.9967  0.9978  1.0037</code></pre>
+<p>Summary of density variable (white wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.9871  0.9917  0.9937  0.9940  0.9961  1.0390</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/Density_Frequency_Plots-1.png" width="672"></p>
+<p>Notice the extreme density value in the white wines distribution. There is a chemical reason behind this high density and it should reflect elsewhere.</p>
+<p>Transformation :</p>
+<p><img src="./pthivierge_eda_files/Density_LogNormal_Plot-1.png" width="672"></p>
+<p>The cube root transformation gives an almost normal result.</p>
+</div>
+<div id="ph-level" class="section level4">
+<h4>pH level</h4>
+<p>The strength of acidity is measured according to its pH. It has an important effect on stability of wine, as it is a natural protection against the spoilage of micro organisms.</p>
+<p>Summary of pH variable (red wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   2.740   3.210   3.310   3.311   3.400   4.010</code></pre>
+<p>Summary of pH variable (white wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   2.720   3.090   3.180   3.188   3.280   3.820</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/pH_Frequency_Plots-1.png" width="672"></p>
+<p>Both wine types are naturally distributed, with a median pH value of 3.31 for red wines and a median pH value of 3.18 for white wines.</p>
+</div>
+<div id="potassium-sulfate" class="section level4">
+<h4>Potassium Sulfate</h4>
+<p>Although potassium is a relatively abundant element on Earth, potassium sulfate (K<sub>2</sub>SO<sub>4</sub>) is rarely found in pure form but in laboratory.</p>
+<p>There could be many potential sources for potassium in wine: apart from being a natural constituant of wine grapes, it could also be found in greater quantities through assimilation of fertilizer (sulfate of potash prefered due to its low salt index) by the rootstock or by the addition of potassium sorbate.</p>
+<p>More investigations needed.</p>
+<p>Summary of K2SO4 variable (red wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.3300  0.5500  0.6200  0.6581  0.7300  2.0000</code></pre>
+<p>Summary of K2SO4 variable (white wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.2200  0.4100  0.4700  0.4898  0.5500  1.0800</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/Sulphates_Frequency_Plots-1.png" width="672"></p>
+<p>The distribution of potassium sulphate content is similar to that of sodium chlorides, both for red and white wines. Indeed, both are positively skewed, but red one has more outliers with extreme values.</p>
+<p>Transformation :</p>
+<p><img src="./pthivierge_eda_files/K2SO4_LogNormal_Plot-1.png" width="672"></p>
+<p>The cube root transformation gives an almost normal result.</p>
+</div>
+<div id="alcohol-abv" class="section level4">
+<h4>Alcohol (ABV)</h4>
+<p>To produce wine and beer, yeasts are added to a sugary solution, and during fermentation, the yeasts consume the sugars and produce alcohol. The density of sugar in water is greater than the density of alcohol in water.</p>
+<p>Summary of ABV variable (red wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    8.40    9.50   10.20   10.42   11.10   14.90</code></pre>
+<p>Summary of ABV variable (white wines) :</p>
+<pre><code class="hljs">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    8.00    9.50   10.40   10.51   11.40   14.20</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/ABV_Frequency_Plots-1.png" width="672"></p>
+<p>Both alcohol percentage distributions for red and white wine samples are almost identical.</p>
+<p>There is a noticeable sawtooth pattern in both plots, where peaks seem to occur at 0.5 intervals.</p>
+<p>Transformation :</p>
+<p><img src="./pthivierge_eda_files/ABV_LogNormal_Plot-1.png" width="672"></p>
+<p>The cube root transformation gives an almost normal result. Notice the step on the right side of both distributions.</p>
+<p>Most of the wine exports are subject to certain regulations according to the alcohol content of the product and generally, winemakers try not to exceed the range in which the product is intended to be. It could be useful to create a categorical variable that rounded the percentage of alcohol to the nearest 0.5%.</p>
+<pre class="r"><code class="hljs"><span class="hljs-comment"># Create a new variable for rounded alcohol by volume percentage</span>
+WQ$ABV.rounded &lt;- trunc(WQ$ABV) + ceiling( <span class="hljs-number">2</span>*(WQ$ABV - trunc(WQ$ABV)) ) / <span class="hljs-number">2</span></code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/Ajusted_ABV_Frequency_Plots-1.png" width="672"></p>
+<p>Although there are many factors that can contribute to a wine’s body, alcohol is the main contributor, as it brings a wine its viscosity and is responsible for either the heavy or light mouthfeel experience.</p>
+<p>On its website, VinePair’s team elaborated a general rule about how to define a wine’s body. According to them, we can assume light-bodied wines to be under 12.5% alcohol, while medium-bodied wines between 12.5% and 13.5% and, finally, heavy-bodied wines over 13.5% alcohol. A categorical variable with these ranges might be useful.</p>
+<pre><code class="hljs">## [1] "Light"  "Medium" "Heavy"</code></pre>
+<p>Plots :</p>
+<p><img src="./pthivierge_eda_files/ABV_by_WineBody_Frequency_Plots-1.png" width="672"></p>
+<p>There is a high proportion of light wine compared to medium and heavy wines.</p>
+</div>
+<div id="univariate-analysis-summary" class="section level4">
+<h4>Univariate Analysis Summary</h4>
+<p>The dataset contains 1599 observations for red wines, compared to 4898 for whites. Among the 12 original variables, only one is a feature of interest: wine quality rating. All the others are supporting it.</p>
+<p>It was first necessary to rename most of the variables, so that their name reflects as faithfully as possible what they represent and to use the same variable pattern to easily add transformed data.</p>
+<p>Already, after a few data manipulations and several readings on viticulture and oenology, many interesting leads surfaced and will need to be further explored. Understanding the meaning of each of the variables provides a considerable advantage over the interpretation of correlations. It was essential, upstream, to create new variables based on existing ones, such as total acidity, acid taste index, standardized residual sugar, molecular SO<sub>2</sub> and bound SO<sub>2</sub>.</p>
+<p>It was also possible to create categories in order to better discriminate the different observations. This was the case for quality, volatile acidity, sweetness, SO<sub>2</sub> levels and alcohol percentage by volume.</p>
+<p>Finally, data transformation was useful in finding unusual distributions in both types of wines. Two bimodal distributions were found within red wines variables: citric acid and free SO<sub>2</sub>. In the case of white wines, only residual sugar content variable showed a bimodal distribution.</p>
+<hr>
+</div>
+</div>
+<div id="bivariate-data-exploration" class="section level3">
+<h3>4. Bivariate Data Exploration</h3>
+<p>Let’s first get an overview of the relationship between variables by processing scatterplot matrixes.</p>
+<p><a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/PlotMatrixRed.png">Correlation plot matrix for red wines</a></p>
+<p><a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/PlotMatrixWhite.png">Correlation plot matrix for white wines</a></p>
+<p>The two plot matrix above can help to find trends, irregularities or evident correlations, but there is too much information to really grasp general relationship between variables.</p>
+<p>It would be more appropriate to use a correlation matrix to get a better idea of how each variable correlates with other ones.</p>
+<p><img src="./pthivierge_eda_files/CorrPlotMatrix_Reds-1.png" width="672"></p>
+<p>In decreasing order of strenght, alcohol, potassium sulfates and citric acid all have positive correlation with the main red wines feature (wine.quality variable), while volatile acidity, total SO<sub>2</sub> and density have negative correlation.</p>
+<p><img src="./pthivierge_eda_files/CorrPlotMatrix_Whites-1.png" width="672"></p>
+<p>The correlation pattern of white wine dataset is quite different than that of red wines.</p>
+<p>Only alcohol has a positive correlation with the main white wines feature (wine.quality variable), while density, sodium chlorides and volatile acidity have a negative correlation.</p>
+<p>The density variable stands out particularly from the others, with more relationships and stronger correlations.</p>
+<p>Two variables appear to have a very low correlations with all other variables from white wine dataset: volatile acidity and potassium sulphate.</p>
+<div id="fixed-acidity-1" class="section level4">
+<h4>Fixed Acidity</h4>
+<p><img src="./pthivierge_eda_files/Quality_vs_FixedAcidity_Plot-1.png" width="672"></p>
+<p><strong>Red wines</strong> : The moderate increase of the fixed acidity median value over quality ratings shows a very low correlation with the feature variable. The more bitter components found in red wine (most notably tannins but also includes other phenolics as well) could be a good track to explain the greater variance.</p>
+<p><strong>White wines</strong> : The median values of the fixed acidity of white wine show a slight decrease. However, the correlation of this variable with wine quality is almost nonexistant.</p>
+<p><img src="./pthivierge_eda_files/FixedAcidity_vs_Correlations-1.png" width="672"></p>
+<p>The graphs above reflect effectively how fixed acidity adds to the overall density and generally makes pH drop significantly.</p>
+<p>It is interesting to note <strong>a change in pH that seems to operate over 3.6</strong>.</p>
+<p>Notice the two clusters that appear within white wines when relating fixed acidity with density and residual sugar.</p>
+</div>
+<div id="volatile-acidity-1" class="section level4">
+<h4>Volatile Acidity</h4>
+<p><img src="./pthivierge_eda_files/Quality_vs_VolatileAcidity_Plot-1.png" width="672"></p>
+<p><strong>Red wines</strong> : It seems that concentration of volatile acidity might have a significant impact on wine quality. Both the variance and the median values decrease while the quality increases. Look how the worst wines exceed the 0.70 g/L threshold of volatile acidity, where it becomes unpleasant, and how most excellent wines are found under 0.40 g/L.</p>
+<p><strong>White wines</strong> : There is very little difference between median values, but the variance appears to decrease, especially in outliers.</p>
+<p><img src="./pthivierge_eda_files/VolatileAcid_DensityPlots-1.png" width="672"></p>
+<p><strong>Red wines</strong> : The volatile acidity concentration seems to seriously affect the quality rating.</p>
+<p><strong>White wines</strong> : Even if poor wines have a slightly greater proportion of volatile acidity, most wines have relatively low concentration.</p>
+</div>
+<div id="citric-acid-1" class="section level4">
+<h4>Citric Acid</h4>
+<p><img src="./pthivierge_eda_files/Quality_vs_CitricAcid_Plot-1.png" width="672"></p>
+<p><strong>Red wines</strong> : The higher the quality, the higher the median citric acid concentration is, but there is little difference between variances.</p>
+<p><strong>White wines</strong> : The variance decreases as the quality increases, but there is little difference between the median values.</p>
+<p><img src="./pthivierge_eda_files/CitricAcid_vs_Correlations_Plot-1.png" width="672"></p>
+<p>Although volatile acidity has a strong correlation with citric acid, many observations do not contain any. This suggests that more investigations are needed. Starting from 0.25 g/L, the many doses of citric acid at 0.25 g/L interval have much less variance than other related variables.</p>
+<p>Notice the two clusters still showing residual sugar variable.</p>
+<p><img src="./pthivierge_eda_files/Quality_vs_CitricTotalRatio_Plot-1.png" width="672"></p>
+<p><strong>Red wines</strong> : The higher the quality, the higher the median citric / volatile acids ratio is. There is also a small decrease of the variance.</p>
+<p><strong>White wines</strong> : There is no significant difference between median values, but there is a huge increase of the extreme values as the quality increase.</p>
+</div>
+<div id="acid-taste-index-1" class="section level4">
+<h4>Acid Taste Index</h4>
+<p><img src="./pthivierge_eda_files/Quality_vs_AcidTasteIndex_Plot-1.png" width="672"></p>
+<p><strong>Red wines</strong> : There is a small increase of median values as the quality increase, but there is a lot of variance over all ratings, and many outliers in the average (5 and 6) ratings.</p>
+<p><strong>White wines</strong> : The variance decreases as the quality increases, and there is small decrease of the median values.</p>
+</div>
+<div id="sweetness" class="section level4">
+<h4>Sweetness</h4>
+<p><img src="./pthivierge_eda_files/Quality_vs_Residual_Sugar_Plot-1.png" width="672"></p>
+<p><strong>Red wines</strong> : The thickness of the tail of each rating distribution says a lot about its acceptable level of residual sugar.</p>
+<p><strong>White wines</strong> : Although there is a main concentration at the bottom of the violin plot above, there clearly is two groups within this variable and it is particularly visible within ratings 5, 6 and 9.</p>
+<p><img src="./pthivierge_eda_files/RS_vs_Correlations_Plot-1.png" width="672"></p>
+<p>There is a particularly important breakage for residual sugar and density, between the two groups of wines.</p>
+</div>
+<div id="sodium-chlorides-nacl" class="section level4">
+<h4>Sodium Chlorides (NaCl)</h4>
+<p><img src="./pthivierge_eda_files/Quality_vs_Chlorides_Plot-1.png" width="672"></p>
+<p>Both for red wine and white wine, a decrease in the amount of sodium chlorides, even minimal, seems to help the wine to get a better rating.</p>
+<p><img src="./pthivierge_eda_files/NaCl_vs_Correlations_Plot-1.png" width="672"></p>
+<p>Note how sodium chlorides is positively correlated with bound SO<sub>2</sub> and potassium sulfates.</p>
+</div>
+<div id="sulfur-dioxide-so2" class="section level4">
+<h4>Sulfur dioxide (SO<sub>2</sub>)</h4>
+<p><img src="./pthivierge_eda_files/Quality_vs_FreeSO2_Plot-1.png" width="672"></p>
+<p>The boundary seems thin between an insufficient and a perfect amount of SO<sub>2</sub>.</p>
+<p><img src="./pthivierge_eda_files/Quality_vs_TotalSO2_Plot-1.png" width="672"></p>
+<p>The plot above is very similar to that of free SO<sub>2</sub>, but with higher concentrations.</p>
+<p><img src="./pthivierge_eda_files/Quality_vs_MolecularSO2_Plot-1.png" width="672"></p>
+<p>The molecular form of SO2 is responsible for the sensory threshold. While most people have never tasted an unsulphured wine and may be well used to the taste of sulfur, for an experienced taster, the threshold at which SO2 becomes unpleasant is much lower, with concentrations of around 2 mg/L.</p>
+<p><img src="./pthivierge_eda_files/MolecularSO2_vs_Correlations-1.png" width="672"></p>
+<p>Even if the correlation is low, notice how the total amount of SO2 affects the presence of volatile acidity, especially in the case of white wines.</p>
+<p><img src="./pthivierge_eda_files/SO2Protection_vs_VA_Plot-1.png" width="672"></p>
+<p><strong>Red wines</strong> : Although there is not a large difference between the median volatile acidity concentration, the reduction of variance as the protection level increases shows that molecular SO<sub>2</sub> concentration is likely to have an effect on volatile acidity formation.</p>
+<p><strong>White wines</strong> : Generally, as white wine gets larger dose of SO<sub>2</sub> during fermentation, volatile acidity is more likely to be in lower concentation.</p>
+<p>Notice that volatile acidity maximum values, for both red and white highly protected wines, do not exceed the detrimental threshold of 0.7 g/L.</p>
+</div>
+<div id="ph" class="section level4">
+<h4>pH</h4>
+<p><img src="./pthivierge_eda_files/Quality_vs_pH_Plot-1.png" width="672"></p>
+<p>The plot above shows that pH plays an important role in wine quality ratings, both for reds and whites, and that a phenomenon seems to converge it towards a level of 3.25. However, there is also a large variance for both types of wine.</p>
+<p><img src="./pthivierge_eda_files/pH_vs_Correlations_Plot-1.png" width="672"></p>
+<p>Notice the lower SO<sub>2</sub> concentration of observations in higher pH levels for both red and white wines, compared to free SO<sub>2</sub>.</p>
+</div>
+<div id="density-1" class="section level4">
+<h4>Density</h4>
+<p><img src="./pthivierge_eda_files/Quality_vs_Density_Plot-1.png" width="672"></p>
+<p>The final density of the product appears to be reflected in the assignment of a quality rating. In the case of white wines, the variance is greater.</p>
+</div>
+<div id="potassium-sulfates" class="section level4">
+<h4>Potassium Sulfates</h4>
+<p><img src="./pthivierge_eda_files/Quality_vs_Sulfates_Plot-1.png" width="672"></p>
+<p><strong>Red wines</strong> : As can be seen, the amount potassium sulfates appears to play an important role in the attribution quality rating of red wines. The variance is relatively low and there are many outliers in average categories.</p>
+<p><strong>White wines</strong> : There is no noticeable trend.</p>
+<p><img src="./pthivierge_eda_files/Sulphates_vs_Correlations_Plot-1.png" width="672"></p>
+<p>Notice how potassium sulfates variable correlates negatively with pH in red wines, whereas it is positive in whites.</p>
+</div>
+<div id="alcohol" class="section level4">
+<h4>Alcohol</h4>
+<p><img src="./pthivierge_eda_files/Quality_vs_Alcohol_Plot-1.png" width="672"></p>
+<p>Alcohol is the compound that seems to have the greatest correlation with quality. On the other hand, there is a lot of variance.</p>
+<p><img src="./pthivierge_eda_files/Alcohol_vs_Correlations_Plot-1.png" width="672"></p>
+<p>The plots above show how the percentage of alcohol by volume contributes to determine the density of the solution, the amount of residual sugar and the concentration of volatile acid.</p>
+</div>
+<div id="bivariate-analysis-summary" class="section level4">
+<h4>Bivariate Analysis Summary</h4>
+<p>The red and white wines differ not only by the method used to make them, but also in the final complexity of the product. By linking independent to dependent variables, it is possible to take into account the factors underlying certain phenomena that are difficult to explain.</p>
+<p>As the pH level define the strength of acidity, it is not surprising that pH and fixed acidity variables have the highest correlation of the dataset, with a coefficient of -0.683. However, the two are theoretically not linked together, because fixed acidity is composed from many acids, mainly tartaric, malic, lactic and citric. Each having more or less strength.</p>
+<p>The concentration of free SO<sub>2</sub> should increase with higher PH levels, but data shows the opposite. The illustration below shows the required free SO<sub>2</sub> to keep the appropriate molecular SO<sub>2</sub> concentration depending on the pH level. Something goes wrong and does not correspond to the interactions suggested by the literature. This track needs to be further investigated.</p>
+<div class="figure">
+<img src="./pthivierge_eda_files/SO2MF1.gif" width="640">
+
+</div>
+<p>Illustration by <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/www.brsquared.org/wine/Articles/SO2/SO2.htm">Ben Rotter</a></p>
+<p>The presence of potassium sulfates may affect as well the two types of wines in a different way. Knowing the origin of potassium in the grapes and in what form it is present could help explain the phenomenon.</p>
+<div class="figure">
+<img src="./pthivierge_eda_files/sulfur_assimilation.png" width="320">
+
+</div>
+<p>Illustration by <a href="https://en.wikipedia.org/wiki/Sulfur_assimilation">Infodek</a></p>
+<p>Potassium is one of the most common ions (K+) found in plants. It influences the metabolism of the vine, as well as the acidity of the must and the wine.</p>
+<p>The complexity of red wines makes them denser and promotes the formation of volatile acidity.</p>
+<hr>
+</div>
+</div>
+<div id="multivariate-data-exploration" class="section level3">
+<h3>5. Multivariate Data Exploration</h3>
+<p><img src="./pthivierge_eda_files/FreeSO2_vs_BoundSO2_vs_WQ_Bimod-1.png" width="672"></p>
+<p>The exact relashionship between free and bound SO2 is quite complex and will vary from wine to wine and it is clear that white wines are generally not in the same range as the reds. Sulphur dioxide has an importance that should not be neglected in this analysis.</p>
+<p><img src="./pthivierge_eda_files/Citric_vs_Volatile_vs_WQ_Plots-1.png" width="672"></p>
+<p><strong>Red wines</strong> : Notice the high concentration of good wines at the bottom right of the scatterplot. Most bad wines have low citric acid concentration and a greater presence of volatile acidity.</p>
+<p><strong>White wines</strong> : The same relationship can be observed, but the concentration of citric acid does not appear to be such an important factor for the presence of volatile acidity, given the homogeneity of the observations.</p>
+<p><img src="./pthivierge_eda_files/FixedAcid_vs_VA_vs_WQ_by_Bimod-1.png" width="672"></p>
+<p>What captures the attention here is not so much the relationship between fixed acidity and volatile acidity, but rather its direction being the opposite for each of the groups of both types of wine.</p>
+<p><img src="./pthivierge_eda_files/pH_vs_CitricAcid_vs_Quality-1.png" width="672"></p>
+<p><strong>Red wines</strong> : Notice the high concentration of good wines within the two clusters that formed at each end of the scatterplot. Moreover, most bad wines have a high pH and very little citric acid.</p>
+<p><strong>White wines</strong> : The pH appears to have a weak relationship with citric acid, which seems rather constant.</p>
+<p><img src="./pthivierge_eda_files/pH_vs_Citric_vs_WQ_RedOnly-1.png" width="672"></p>
+<p>Once the average wines are removed from the graph, two independent clusters are easily distinguished.</p>
+<p><img src="./pthivierge_eda_files/pH_vs_Citric_vs_D2D_RedOnly-1.png" width="672"></p>
+<p>The 2d density graph eliminates possible doubts about the separateness of both groups. As acidity and PH play a major role in the fermentation process, further research on citric acid may help to find relevant information to explain this phenomenon.</p>
+<p><img src="./pthivierge_eda_files/K2SO4_vs_ABV_vs_Quality_Plot-1.png" width="672"></p>
+<p><strong>Red wines</strong> : The relationship between potassium sulphates and alcohol, although not very strong, does a good job on observations segregation by isolating most of the good wines into a cluster at top right of the scatterplot.</p>
+<p><strong>White wines</strong> : The relationship between the two variables is extremely low and opposite to that of red wine, in addition to exhibiting a lot of variance.</p>
+<p><img src="./pthivierge_eda_files/NaCl_vs_ABV_vs_Quality_Plot-1.png" width="672"></p>
+<p><strong>Red wines</strong> : Segregation of observations is not as straightforward as that of potassium sulphate.</p>
+<p><strong>White wines</strong> : On the other hand, the alcohol content of white wines demonstrates a stronger relationship with sodium chlorides than with potassium sulphates.</p>
+<p><img src="./pthivierge_eda_files/NaCl_vs_K2SO4_vs_WQ_Plots-1.png" width="672"></p>
+<p>The relation of sodium chlorides with potassium sulfates differs for both types of wines. The two variables have no particular correlation, but the segregation of observations according to their quality is striking, for both types of wines. Since there is no evidence of a link between the two, it would certainly be useful to create a ratio to express it.</p>
+<pre class="r"><code class="hljs"><span class="hljs-comment"># Create a new variable for K2So4 to NaCl Ratio</span>
+WQ$K2SO4.NaClRatio &lt;- WQ$K2SO4^(<span class="hljs-number">1</span>/<span class="hljs-number">3</span>) / WQ$NaCl^(<span class="hljs-number">1</span>/<span class="hljs-number">3</span>)</code></pre>
+<p><img src="./pthivierge_eda_files/K2SO4NaCl_vs_ABV_vs_WQ_Plot-1.png" width="672"></p>
+<p>It would be difficult to deny the relationship between potassium sulphates, sodium chlorides, alcohol content and quality in both red and white wines.</p>
+<p><img src="./pthivierge_eda_files/K2SO4NaCl_vs_ABV_vs_WQ_RedOnly-1.png" width="672"></p>
+<p>Notice how the poor red wines are concentrated in the lower left corner of the plot.</p>
+<p><img src="./pthivierge_eda_files/K2SO4NaCl_vs_ABV_vs_WQ_WhitOnly-1.png" width="672"></p>
+<p>Notice how the poor white wines are concentrated in the lower left corner of the plot.</p>
+<p><img src="./pthivierge_eda_files/K2SO4NaCl_vs_ABV_vs_VA_RedOnly-1.png" width="672"></p>
+<p>The relation between the ratio of potassium sulphates to sodium chlorides and alcohol content appears to influence the presence of volatile acidity.</p>
+<p><img src="./pthivierge_eda_files/K2SO4NaCl_vs_ABV_vs_VA_WhitOnly-1.png" width="672"></p>
+<p>Although less prone to the presence of volatile acidity, most white wines demonstrating a concentration regarded as detrimental are found in the lower left corner of the plot.</p>
+<p><img src="./pthivierge_eda_files/ABV_vs_K2So4NaCl_vs_WQ_by_Bimod-1.png" width="672"></p>
+<p>The result is astounding. Not only is segregation clear, but the above plots show a positive correlation for each group, for both red and white wines.</p>
+<pre><code class="hljs">## 
+##  Pearson's product-moment correlation
+## 
+## data:  ABV and K2SO4.NaClRatio
+## t = 12.648, df = 765, p-value &lt; 2.2e-16
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.3555467 0.4727430
+## sample estimates:
+##       cor 
+## 0.4158699</code></pre>
+<pre><code class="hljs">## 
+##  Pearson's product-moment correlation
+## 
+## data:  ABV and K2SO4.NaClRatio
+## t = 10.4, df = 830, p-value &lt; 2.2e-16
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.2779856 0.3983132
+## sample estimates:
+##       cor 
+## 0.3395378</code></pre>
+<pre><code class="hljs">## 
+##  Pearson's product-moment correlation
+## 
+## data:  ABV and K2SO4.NaClRatio
+## t = 19.946, df = 2095, p-value &lt; 2.2e-16
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.3628924 0.4348606
+## sample estimates:
+##       cor 
+## 0.3994919</code></pre>
+<pre><code class="hljs">## 
+##  Pearson's product-moment correlation
+## 
+## data:  ABV and K2SO4.NaClRatio
+## t = 22.129, df = 2799, p-value &lt; 2.2e-16
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.3539024 0.4169579
+## sample estimates:
+##       cor 
+## 0.3858807</code></pre>
+<p>The resulting correlation coefficient is moderate for all groups.</p>
+<p><img src="./pthivierge_eda_files/ABV_vs_RS_vs_WQ_by_Bimodal-1.png" width="672"></p>
+<p>What captures the attention here is not so much the relationship between alcohol content and residual sugar, but rather its direction being the opposite for each of the groups of both types of wine.</p>
+<div id="multivariate-analysis" class="section level4">
+<h4>Multivariate Analysis</h4>
+<p>The role played by citric acid seems more complex for red wines than whites, despite the fact that the same negative correlation is observed with volatile acidity.</p>
+<p>The two distinct groups that are found in relation to pH and citric acid are potentially the fruits of another transformation process: malolactic fermentation.</p>
+<p>Although there is no relationship between potassium sulphates and sodium chlorides, both have a somewhat similar function. Everything appears to take place during wine stabilization.</p>
+<p>The manual segregation based on bimodal distributions shows that there are several groups of observations, that are in fact different populations. Moreover, the response variable is ordinal, because it is a ranking. All this violates the main assumptions of the simple linear regression. Even it would then be more appropriate to use an ordinal logistic regression in this case, it would be essential to obtain more precise data on the composition of fixed and volatile acids.</p>
+<hr>
+</div>
+</div>
+<div id="summary" class="section level3">
+<h3>6. Summary</h3>
+<div id="first-part" class="section level4">
+<h4>First Part</h4>
+<p>An intriguing fact caught my attention while analyzing the relationship between different variables. How can potassium sulphates be negatively correlated with pH in the case of red wines and positively with whites?</p>
+<p>Although has very few relationships with other variables in the dataset, potassium sulfates may well play a leading role in the attribution of wine ratings, but not only during winemaking.</p>
+<p>It was the variable with which I had the most difficulty obtaining information about, given its proximity to the SO<sub>2</sub>, confusion with similar terms in the same field (K2SO4 fertilizer and SO4 rootstock) and the lack of precision as to the additive used in the data set description.</p>
+<p>According to <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/%5B12%5D">International Plant Nutrition Institute</a>, sulfate of potash “fertilizer is commonly added to improve the yield and quality of plants growing in soils that are lacking an adequate supply of this essential nutrient”. Winemakers also use it when irrigation water salinity is causing problems with their crops.</p>
+<p>Moreover, a recent research demonstrated that using K<sub>2</sub>SO<sub>4</sub> as a fertilizer significantly affects yield, cluster weights, as well as berry weight and some fruit quality indices, including titrable acidity, pH and phenolic compounds.</p>
+<p>Although that, in theory, the presence of potassium sulphate could indicate the initial quality of the grapes used for wine production, this chemical compound could also be produced in greater quantities by adding potassium sorbate additive to the must.</p>
+<p>The following plot shows two very interesting interactions between some of the compounds involved in winemaking, including potassium sulfates and sodium chlorides. The first is the anti-oxidant properties of SO<sub>2</sub>.</p>
+<p><img src="./pthivierge_eda_files/Final_Plot_One-1.png" width="672"></p>
+<p>Indeed, SO<sub>2</sub> reacts promptly with hydrogen peroxide (H<sub>2</sub>O<sub>2</sub>), a strong oxidising substance, to form sulphate (SO<sub>4</sub>–) before it can react with alcohol (CH<sub>3</sub>CH<sub>2</sub>OH) to produce acetaldehyde (CH<sub>3</sub>CHO), a volatile compound, and water.</p>
+<p><span class="math display"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><div class="MathJax_Display"><span class="MathJax MathJax_FullWidth" id="MathJax-Element-4-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;mi&gt;W&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;mi&gt;h&lt;/mi&gt;&lt;mi&gt;o&lt;/mi&gt;&lt;mi&gt;u&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;mi&gt;S&lt;/mi&gt;&lt;msub&gt;&lt;mi&gt;O&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo&gt;:&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;H&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;msub&gt;&lt;mi&gt;O&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;mi&gt;h&lt;/mi&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;mi&gt;o&lt;/mi&gt;&lt;mi&gt;l&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;&amp;#x21D2;&lt;/mo&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;l&lt;/mi&gt;&lt;mi&gt;d&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi&gt;h&lt;/mi&gt;&lt;mi&gt;y&lt;/mi&gt;&lt;mi&gt;d&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;msub&gt;&lt;mi&gt;H&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mi&gt;O&lt;/mi&gt;&lt;mspace linebreak=&quot;newline&quot; /&gt;&lt;mi&gt;W&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;mi&gt;h&lt;/mi&gt;&lt;mi&gt;S&lt;/mi&gt;&lt;msub&gt;&lt;mi&gt;O&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo&gt;:&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;H&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;msub&gt;&lt;mi&gt;O&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;mi&gt;o&lt;/mi&gt;&lt;mi&gt;l&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mi&gt;u&lt;/mi&gt;&lt;mi&gt;l&lt;/mi&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mi&gt;S&lt;/mi&gt;&lt;msub&gt;&lt;mi&gt;O&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;&amp;#x21D2;&lt;/mo&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mi&gt;u&lt;/mi&gt;&lt;mi&gt;l&lt;/mi&gt;&lt;mi&gt;p&lt;/mi&gt;&lt;mi&gt;h&lt;/mi&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;[&lt;/mo&gt;&lt;mi&gt;S&lt;/mi&gt;&lt;msubsup&gt;&lt;mi&gt;O&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;4&lt;/mn&gt;&lt;/mrow&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;/mrow&gt;&lt;/msubsup&gt;&lt;mo stretchy=&quot;false&quot;&gt;]&lt;/mo&gt;&lt;/math&gt;" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-107" style="width: 100%; display: inline-block; min-width: 29.467em;"><span style="display: inline-block; position: relative; width: 100%; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(3.098em, 1024.53em, 5.955em, -999.997em); top: -3.985em; left: 0em; width: 100%;"><span class="mrow" id="MathJax-Span-108"><span style="display: inline-block; position: relative; width: 100%; height: 0px;"><span style="position: absolute; clip: rect(3.098em, 1024.53em, 4.348em, -999.997em); top: -3.985em; left: 50%; margin-left: -12.259em;"><span class="mi" id="MathJax-Span-109" style="font-family: MathJax_Math-italic;">W<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.122em;"></span></span><span class="mi" id="MathJax-Span-110" style="font-family: MathJax_Math-italic;">i</span><span class="mi" id="MathJax-Span-111" style="font-family: MathJax_Math-italic;">t</span><span class="mi" id="MathJax-Span-112" style="font-family: MathJax_Math-italic;">h</span><span class="mi" id="MathJax-Span-113" style="font-family: MathJax_Math-italic;">o</span><span class="mi" id="MathJax-Span-114" style="font-family: MathJax_Math-italic;">u</span><span class="mi" id="MathJax-Span-115" style="font-family: MathJax_Math-italic;">t</span><span class="mi" id="MathJax-Span-116" style="font-family: MathJax_Math-italic;">S<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.063em;"></span></span><span class="msubsup" id="MathJax-Span-117"><span style="display: inline-block; position: relative; width: 1.193em; height: 0px;"><span style="position: absolute; clip: rect(3.098em, 1000.72em, 4.17em, -999.997em); top: -3.985em; left: 0em;"><span class="mi" id="MathJax-Span-118" style="font-family: MathJax_Math-italic;">O</span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; top: -3.807em; left: 0.777em;"><span class="texatom" id="MathJax-Span-119"><span class="mrow" id="MathJax-Span-120"><span class="mn" id="MathJax-Span-121" style="font-size: 70.7%; font-family: MathJax_Main;">2</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span><span class="mo" id="MathJax-Span-122" style="font-family: MathJax_Main; padding-left: 0.301em;">:</span><span class="msubsup" id="MathJax-Span-123" style="padding-left: 0.301em;"><span style="display: inline-block; position: relative; width: 1.253em; height: 0px;"><span style="position: absolute; clip: rect(3.158em, 1000.9em, 4.17em, -999.997em); top: -3.985em; left: 0em;"><span class="mi" id="MathJax-Span-124" style="font-family: MathJax_Math-italic;">H<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.063em;"></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; top: -3.807em; left: 0.836em;"><span class="texatom" id="MathJax-Span-125"><span class="mrow" id="MathJax-Span-126"><span class="mn" id="MathJax-Span-127" style="font-size: 70.7%; font-family: MathJax_Main;">2</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span><span class="msubsup" id="MathJax-Span-128"><span style="display: inline-block; position: relative; width: 1.193em; height: 0px;"><span style="position: absolute; clip: rect(3.098em, 1000.72em, 4.17em, -999.997em); top: -3.985em; left: 0em;"><span class="mi" id="MathJax-Span-129" style="font-family: MathJax_Math-italic;">O</span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; top: -3.807em; left: 0.777em;"><span class="texatom" id="MathJax-Span-130"><span class="mrow" id="MathJax-Span-131"><span class="mn" id="MathJax-Span-132" style="font-size: 70.7%; font-family: MathJax_Main;">2</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span><span class="mo" id="MathJax-Span-133" style="font-family: MathJax_Main; padding-left: 0.241em;">+</span><span class="mi" id="MathJax-Span-134" style="font-family: MathJax_Math-italic; padding-left: 0.241em;">e</span><span class="mi" id="MathJax-Span-135" style="font-family: MathJax_Math-italic;">t</span><span class="mi" id="MathJax-Span-136" style="font-family: MathJax_Math-italic;">h</span><span class="mi" id="MathJax-Span-137" style="font-family: MathJax_Math-italic;">a</span><span class="mi" id="MathJax-Span-138" style="font-family: MathJax_Math-italic;">n</span><span class="mi" id="MathJax-Span-139" style="font-family: MathJax_Math-italic;">o</span><span class="mi" id="MathJax-Span-140" style="font-family: MathJax_Math-italic;">l</span><span class="mo" id="MathJax-Span-141" style="font-family: MathJax_Main; padding-left: 0.301em;">⇒</span><span class="mi" id="MathJax-Span-142" style="font-family: MathJax_Math-italic; padding-left: 0.301em;">a</span><span class="mi" id="MathJax-Span-143" style="font-family: MathJax_Math-italic;">c</span><span class="mi" id="MathJax-Span-144" style="font-family: MathJax_Math-italic;">e</span><span class="mi" id="MathJax-Span-145" style="font-family: MathJax_Math-italic;">t</span><span class="mi" id="MathJax-Span-146" style="font-family: MathJax_Math-italic;">a</span><span class="mi" id="MathJax-Span-147" style="font-family: MathJax_Math-italic;">l</span><span class="mi" id="MathJax-Span-148" style="font-family: MathJax_Math-italic;">d<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="mi" id="MathJax-Span-149" style="font-family: MathJax_Math-italic;">e</span><span class="mi" id="MathJax-Span-150" style="font-family: MathJax_Math-italic;">h</span><span class="mi" id="MathJax-Span-151" style="font-family: MathJax_Math-italic;">y<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="mi" id="MathJax-Span-152" style="font-family: MathJax_Math-italic;">d<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="mi" id="MathJax-Span-153" style="font-family: MathJax_Math-italic;">e</span><span class="mo" id="MathJax-Span-154" style="font-family: MathJax_Main; padding-left: 0.241em;">+</span><span class="mn" id="MathJax-Span-155" style="font-family: MathJax_Main; padding-left: 0.241em;">2</span><span class="msubsup" id="MathJax-Span-156"><span style="display: inline-block; position: relative; width: 1.253em; height: 0px;"><span style="position: absolute; clip: rect(3.158em, 1000.9em, 4.17em, -999.997em); top: -3.985em; left: 0em;"><span class="mi" id="MathJax-Span-157" style="font-family: MathJax_Math-italic;">H<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.063em;"></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; top: -3.807em; left: 0.836em;"><span class="texatom" id="MathJax-Span-158"><span class="mrow" id="MathJax-Span-159"><span class="mn" id="MathJax-Span-160" style="font-size: 70.7%; font-family: MathJax_Main;">2</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span><span class="mi" id="MathJax-Span-161" style="font-family: MathJax_Math-italic;">O</span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; clip: rect(2.979em, 1023.4em, 4.467em, -999.997em); top: -2.557em; left: 50%; margin-left: -11.783em;"><span class="mspace" id="MathJax-Span-162" style="height: 0em; vertical-align: 0em; width: 0em; display: inline-block; overflow: hidden;"></span><span class="mi" id="MathJax-Span-163" style="font-family: MathJax_Math-italic;">W<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.122em;"></span></span><span class="mi" id="MathJax-Span-164" style="font-family: MathJax_Math-italic;">i</span><span class="mi" id="MathJax-Span-165" style="font-family: MathJax_Math-italic;">t</span><span class="mi" id="MathJax-Span-166" style="font-family: MathJax_Math-italic;">h</span><span class="mi" id="MathJax-Span-167" style="font-family: MathJax_Math-italic;">S<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.063em;"></span></span><span class="msubsup" id="MathJax-Span-168"><span style="display: inline-block; position: relative; width: 1.193em; height: 0px;"><span style="position: absolute; clip: rect(3.098em, 1000.72em, 4.17em, -999.997em); top: -3.985em; left: 0em;"><span class="mi" id="MathJax-Span-169" style="font-family: MathJax_Math-italic;">O</span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; top: -3.807em; left: 0.777em;"><span class="texatom" id="MathJax-Span-170"><span class="mrow" id="MathJax-Span-171"><span class="mn" id="MathJax-Span-172" style="font-size: 70.7%; font-family: MathJax_Main;">2</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span><span class="mo" id="MathJax-Span-173" style="font-family: MathJax_Main; padding-left: 0.301em;">:</span><span class="msubsup" id="MathJax-Span-174" style="padding-left: 0.301em;"><span style="display: inline-block; position: relative; width: 1.253em; height: 0px;"><span style="position: absolute; clip: rect(3.158em, 1000.9em, 4.17em, -999.997em); top: -3.985em; left: 0em;"><span class="mi" id="MathJax-Span-175" style="font-family: MathJax_Math-italic;">H<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.063em;"></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; top: -3.807em; left: 0.836em;"><span class="texatom" id="MathJax-Span-176"><span class="mrow" id="MathJax-Span-177"><span class="mn" id="MathJax-Span-178" style="font-size: 70.7%; font-family: MathJax_Main;">2</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span><span class="msubsup" id="MathJax-Span-179"><span style="display: inline-block; position: relative; width: 1.193em; height: 0px;"><span style="position: absolute; clip: rect(3.098em, 1000.72em, 4.17em, -999.997em); top: -3.985em; left: 0em;"><span class="mi" id="MathJax-Span-180" style="font-family: MathJax_Math-italic;">O</span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; top: -3.807em; left: 0.777em;"><span class="texatom" id="MathJax-Span-181"><span class="mrow" id="MathJax-Span-182"><span class="mn" id="MathJax-Span-183" style="font-size: 70.7%; font-family: MathJax_Main;">2</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span><span class="mo" id="MathJax-Span-184" style="font-family: MathJax_Main; padding-left: 0.241em;">+</span><span class="mi" id="MathJax-Span-185" style="font-family: MathJax_Math-italic; padding-left: 0.241em;">m</span><span class="mi" id="MathJax-Span-186" style="font-family: MathJax_Math-italic;">o</span><span class="mi" id="MathJax-Span-187" style="font-family: MathJax_Math-italic;">l</span><span class="mi" id="MathJax-Span-188" style="font-family: MathJax_Math-italic;">e</span><span class="mi" id="MathJax-Span-189" style="font-family: MathJax_Math-italic;">c</span><span class="mi" id="MathJax-Span-190" style="font-family: MathJax_Math-italic;">u</span><span class="mi" id="MathJax-Span-191" style="font-family: MathJax_Math-italic;">l</span><span class="mi" id="MathJax-Span-192" style="font-family: MathJax_Math-italic;">a</span><span class="mi" id="MathJax-Span-193" style="font-family: MathJax_Math-italic;">r</span><span class="mi" id="MathJax-Span-194" style="font-family: MathJax_Math-italic;">S<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.063em;"></span></span><span class="msubsup" id="MathJax-Span-195"><span style="display: inline-block; position: relative; width: 1.193em; height: 0px;"><span style="position: absolute; clip: rect(3.098em, 1000.72em, 4.17em, -999.997em); top: -3.985em; left: 0em;"><span class="mi" id="MathJax-Span-196" style="font-family: MathJax_Math-italic;">O</span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; top: -3.807em; left: 0.777em;"><span class="texatom" id="MathJax-Span-197"><span class="mrow" id="MathJax-Span-198"><span class="mn" id="MathJax-Span-199" style="font-size: 70.7%; font-family: MathJax_Main;">2</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span><span class="mo" id="MathJax-Span-200" style="font-family: MathJax_Main; padding-left: 0.301em;">⇒</span><span class="mi" id="MathJax-Span-201" style="font-family: MathJax_Math-italic; padding-left: 0.301em;">s</span><span class="mi" id="MathJax-Span-202" style="font-family: MathJax_Math-italic;">u</span><span class="mi" id="MathJax-Span-203" style="font-family: MathJax_Math-italic;">l</span><span class="mi" id="MathJax-Span-204" style="font-family: MathJax_Math-italic;">p</span><span class="mi" id="MathJax-Span-205" style="font-family: MathJax_Math-italic;">h</span><span class="mi" id="MathJax-Span-206" style="font-family: MathJax_Math-italic;">a</span><span class="mi" id="MathJax-Span-207" style="font-family: MathJax_Math-italic;">t</span><span class="mi" id="MathJax-Span-208" style="font-family: MathJax_Math-italic;">e</span><span class="mo" id="MathJax-Span-209" style="font-family: MathJax_Main;">[</span><span class="mi" id="MathJax-Span-210" style="font-family: MathJax_Math-italic;">S<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.063em;"></span></span><span class="msubsup" id="MathJax-Span-211"><span style="display: inline-block; position: relative; width: 1.967em; height: 0px;"><span style="position: absolute; clip: rect(3.098em, 1000.72em, 4.17em, -999.997em); top: -3.985em; left: 0em;"><span class="mi" id="MathJax-Span-212" style="font-family: MathJax_Math-italic;">O</span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; clip: rect(3.396em, 1001.19em, 4.229em, -999.997em); top: -4.402em; left: 0.777em;"><span class="texatom" id="MathJax-Span-213"><span class="mrow" id="MathJax-Span-214"><span class="mo" id="MathJax-Span-215" style="font-size: 70.7%; font-family: MathJax_Main;">−</span><span class="mo" id="MathJax-Span-216" style="font-size: 70.7%; font-family: MathJax_Main;">−</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span><span style="position: absolute; clip: rect(3.336em, 1000.42em, 4.17em, -999.997em); top: -3.688em; left: 0.777em;"><span class="texatom" id="MathJax-Span-217"><span class="mrow" id="MathJax-Span-218"><span class="mn" id="MathJax-Span-219" style="font-size: 70.7%; font-family: MathJax_Main;">4</span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span><span class="mo" id="MathJax-Span-220" style="font-family: MathJax_Main;">]</span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span></span><span style="display: inline-block; width: 0px; height: 3.991em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -2.211em; border-left: 0px solid; width: 0px; height: 3.075em;"></span></span></nobr><span class="MJX_Assistive_MathML MJX_Assistive_MathML_Block" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>W</mi><mi>i</mi><mi>t</mi><mi>h</mi><mi>o</mi><mi>u</mi><mi>t</mi><mi>S</mi><msub><mi>O</mi><mrow class="MJX-TeXAtom-ORD"><mn>2</mn></mrow></msub><mo>:</mo><msub><mi>H</mi><mrow class="MJX-TeXAtom-ORD"><mn>2</mn></mrow></msub><msub><mi>O</mi><mrow class="MJX-TeXAtom-ORD"><mn>2</mn></mrow></msub><mo>+</mo><mi>e</mi><mi>t</mi><mi>h</mi><mi>a</mi><mi>n</mi><mi>o</mi><mi>l</mi><mo stretchy="false">⇒</mo><mi>a</mi><mi>c</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>l</mi><mi>d</mi><mi>e</mi><mi>h</mi><mi>y</mi><mi>d</mi><mi>e</mi><mo>+</mo><mn>2</mn><msub><mi>H</mi><mrow class="MJX-TeXAtom-ORD"><mn>2</mn></mrow></msub><mi>O</mi><mspace linebreak="newline"></mspace><mi>W</mi><mi>i</mi><mi>t</mi><mi>h</mi><mi>S</mi><msub><mi>O</mi><mrow class="MJX-TeXAtom-ORD"><mn>2</mn></mrow></msub><mo>:</mo><msub><mi>H</mi><mrow class="MJX-TeXAtom-ORD"><mn>2</mn></mrow></msub><msub><mi>O</mi><mrow class="MJX-TeXAtom-ORD"><mn>2</mn></mrow></msub><mo>+</mo><mi>m</mi><mi>o</mi><mi>l</mi><mi>e</mi><mi>c</mi><mi>u</mi><mi>l</mi><mi>a</mi><mi>r</mi><mi>S</mi><msub><mi>O</mi><mrow class="MJX-TeXAtom-ORD"><mn>2</mn></mrow></msub><mo stretchy="false">⇒</mo><mi>s</mi><mi>u</mi><mi>l</mi><mi>p</mi><mi>h</mi><mi>a</mi><mi>t</mi><mi>e</mi><mo stretchy="false">[</mo><mi>S</mi><msubsup><mi>O</mi><mrow class="MJX-TeXAtom-ORD"><mn>4</mn></mrow><mrow class="MJX-TeXAtom-ORD"><mo>−</mo><mo>−</mo></mrow></msubsup><mo stretchy="false">]</mo></math></span></span></div><script type="math/tex; mode=display" id="MathJax-Element-4">
+Without SO_{2} :  H_{2}O_{2} + ethanol \Rightarrow  acetaldehyde + 2H_{2}O \\
+With SO_{2} :  H_{2}O_{2} + molecular SO_{2} \Rightarrow  sulphate [SO_{4}^{--}]
+</script></span></p>
+<p>The second interaction, in some way, increase the stability of the wine and occurs mainly through the presence of free potassium, which is a natural constituent of the grapes, and sulphates.</p>
+<p>Although most salts are water-soluble, potassium bitartrate has a very low solubility index in alcohol and maximum saturation occurs at a pH level of 3.7. Since a percentage of the tartrate and potassium ions are complexed with wine constituents, the solution can thus withstand an oversaturation.</p>
+<div class="figure">
+<img src="./pthivierge_eda_files/KHT_complexes.png" width="400">
+
+</div>
+<p>Illustration by <a href="http://www.apps.fst.vt.edu/extension/enology/downloads/PotBitar.pdf">Bruce Zoecklein</a></p>
+<p>However, red wines and white wines do not have the same retention capacity. The article <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/15">A review of potassium bitartrate stabilization of wines</a> by Bruce Zoecklein, from publication 463-013 of <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/16">Virginia Cooperative Extension</a> (1988), states that “almost one half of the sulfate in white wines and 100% of the sulfate in red wines is hypothesized to complex free potassium as K2SO4 or KSO4”, and that those “complexing factors can greatly affect potassium bitartrate formation and precipitation”. When we introduce the sodium chlorides variable into the equation, a much better correlation is obtained with potassium sulfates, alcohol and quality, for both red and white wines.</p>
+<p><img src="./pthivierge_eda_files/Final_Plot_Two-1.png" width="672"></p>
+<p>The explanation may be in a wine treatment called “stabilization by ion exchange”. To prevent free potassium ions (K+) from complexing with bitartrate and risking them being precipitated, the winemakers pass the wine into a column containing a resin in a cationic form charged with sodium (Na+). The wine thus treated exchanges its K+ with the Na + from the resin, which results in the formation of sodium bitartrate which is more soluble. A slight reduction in acidity follows. This equilibria gives the wine greater clarity as well as a brighter color.</p>
+</div>
+<div id="second-part" class="section level4">
+<h4>Second Part</h4>
+<p>The bimodal distribution of citric acid allows the unveiling of two different types of fermentation: alcoholic and malolactic. We are therefore dealing with two types of wines, which may not be intended for the same clientele.</p>
+<p><img src="./pthivierge_eda_files/Final_Plot_Three-1.png" width="672"></p>
+<p>Alcoholic fermentation is the process by which sugar content of the grapes is converted to alcohol by the yeasts. Table wines are usually the result of this traditional process and generally have a lower pH and a more citric acid.</p>
+<p>A secondary process may follow or overlap the primary fermentation: the malolactic fermentation. It is generally suited for red wine, as it reduce the acidity and increase the complexity. During this process, the harsh tasting malic acid is converted to the softer and less acidic lactic acid. Carbon dioxide is also produced, which is what originally made the reputation of Vinho Verde wines.</p>
+<p>Notice there is a lot of poorer wine within that range of wines undergone malolactic fermentation. Since bacteria use citric acid in their metabolism and that most of these observations have exhausted almost all of it, concentration of diacetyl may have increased, affecting balance of total acidity and bringing unwanted aromas.</p>
+<p>For several reasons, it is unfortunately very difficult to create an effective linear model with the data provided. First, the dataset contains observations belonging to different groups, which, observed together, can lead to misinterpretation. Secondly, several lurking variables govern the above-mentioned phenomena and without them, it is nearly impossible to discriminate these observations with precision.</p>
+<p>Ultimately, both kinds of wine are governed by the same laws, but do not have the same amount of chemical components and the datasets provided differ in terms of observations categories. For example, even if it is not very common, one could very well find a white wine produced using malolactic fermentation.</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="reflection" class="section level2">
+<h2>Reflection</h2>
+<p>In recent years, many researches in the field of viticulture and winemaking have pushed further the agricultural production and all the activities devoted to wine production. In the present context, where we wish to identify how the different chemicals of the wine affect the sensory experience, these research articles helped to get a better understanding of each of the variables, to guide the exploratory analysis and to find some future work that could be done with the dataset.</p>
+<p>In order to better communicate the chemical properties of wine, it would be necessary to add more features to the dataset. Indeed, the wine evaluation sheet contains several criteria that require data that are not available with the dataset:</p>
+<ul>
+<li><p><strong>Appearance</strong> : a measurement of the <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/%5B14%5D">spectral density</a> would allow to know the exact color of the wine, while the turbidity measurement would give a good idea of the concentration of suspended particulates. Flavonoids content (pigments) could also give an idea of the brightness of color.</p></li>
+<li><p><strong>Astringency</strong> : the flavonoids content, specifically anthocyanins and tannins, contribute both to the mouthfeel of wine.</p></li>
+<li><p><strong>Aromas</strong> : the main aromas (primary and secondary) and the bouquet (tertiary aroma) account for almost a quarter of the points allocated to the evaluation of a wine. Adding data about grape variety, flavonoids content as well as the composition of fixed and volatile acidity would help to identify the aromas and their intensity.</p></li>
+</ul>
+<p>It would also certainly be useful to know the age of the wine experts, in order to set more precisely the detection and recognition thresholds of sodium chloride for each wine, as stated in <a href="file:///G:/NextCloud/Documents/UDACITY/Analyse%20explorative/%5B9%5D">this article</a> published in volume 65 issue 1 of the American Journal of Enology and Viticulture (2013).</p>
+<p>Eventually, it would be interesting to reverse the process by offering the customer a wine that would match his preferences, depending on his own understanding of his sensoriality.</p>
+<hr>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>P. Cortez, A. Cerdeira, F. Almeida, T. Matos and J. Reis. Modeling wine preferences by data mining from physicochemical properties. In Decision Support Systems, Elsevier, 47(4):547-553. ISSN: 0167-9236.</p>
+<p>Sonegheti Coli, Marina &amp; Gil Pezzini Rangel, Angelo &amp; Silva Souza, Elizangela &amp; Ferraro Oliveira, Margareth &amp; Cristina Nascimento Chiaradia, Ana. (2015). Chloride concentration in red wines: Influence of terroir and grape type. Food Science and Technology (Campinas). 35. 95-99. 10.1590/1678-457X.6493.</p>
+<p>^ Bellman, R. B.; Gallander, J. F. (1979). “Wine Deacidification”. In Chichester, C. O.; Mrak, Emil Marcel; Stewart, George Franklin. Advances in Food Research Vol. 25. Academic Press. p.&nbsp;3. ISBN 0-12-016425-6. Retrieved 2009-08-04.</p>
+<p>Robert A. Plane, Leonard R. Mattick, LaVerne D. Weirs Am J Enol Vitic. January 1980 31: 265-268; published ahead of print January 01, 1980</p>
+<p>Lambrechts, M.G. &amp; Pretorius, Isak. (2000). Yeast and its importance to wine aroma. S. Afr. J. Enol. Vitic.. 21. 97-129.</p>
+<p>Swiegers, Jan &amp; Pretorius, Isak. (2005). Yeast Modulation of Wine Flavor. Advances in applied microbiology. 57. 131-75. 10.1016/S0065-2164(05)57005-9.</p>
+<p>Bastian, Susan &amp; de Loryn, L.C. &amp; Collins, Cassandra &amp; Petrie, Paul &amp; Johnson, Trent. (2010). Determination of NaCl detection and recognition thresholds in grape juice and wine and sensory perception of salt in white wine. 14th Australian Wine Industry Technical Conference.</p>
+<p>Karimi, Rouhollah. (2017). Potassium-induced freezing tolerance is associated with endogenous abscisic acid, polyamines and soluble sugars changes in grapevine. Scientia Horticulturae. 215. 184-194. 10.1016/j.scienta.2016.12.018.</p>
+<p>Radonjic, Sanja &amp; Cadez, Neza &amp; Kosmerl, Tatjana. (2016). Volatile phenols in wine: Control measures of Brettanomyces/Dekkera yeasts. Acta agriculturae Slovenica. 107. 453-472. 10.14720/aas.2016.107.2.17.</p>
+<p><a href="http://www.morethanorganic.com/sulphur-in-the-bottle" class="uri">http://www.morethanorganic.com/sulphur-in-the-bottle</a></p>
+<p><a href="http://www.bcawa.ca/winemaking/so2use.htm" class="uri">http://www.bcawa.ca/winemaking/so2use.htm</a></p>
+<p><a href="http://www.brsquared.org/wine/Articles/SO2/SO2.htm" class="uri">http://www.brsquared.org/wine/Articles/SO2/SO2.htm</a></p>
+<p><a href="https://www.accuvin.com/wp-content/uploads/2015/04/How-SO2-and-pH-are-Linked.pdf" class="uri">https://www.accuvin.com/wp-content/uploads/2015/04/How-SO2-and-pH-are-Linked.pdf</a></p>
+<p><a href="https://www.awri.com.au/industry_support/winemaking_resources/fining-stabilities/microbiological/avoidance/sulfur_dioxide/" class="uri">https://www.awri.com.au/industry_support/winemaking_resources/fining-stabilities/microbiological/avoidance/sulfur_dioxide/</a></p>
+<p><a href="https://winemakersacademy.com/importance-ph-wine-making/" class="uri">https://winemakersacademy.com/importance-ph-wine-making/</a></p>
+<p><a href="https://fr.wikibooks.org/wiki/Onologie/Le_dioxyde_de_soufre#Bisulfite_de_potassium_KHSO3" class="uri">https://fr.wikibooks.org/wiki/Onologie/Le_dioxyde_de_soufre#Bisulfite_de_potassium_KHSO3</a></p>
+<p><a href="http://alavinq.org/wp-content/uploads/2012/03/Winelab_catalog2006.pdf" class="uri">http://alavinq.org/wp-content/uploads/2012/03/Winelab_catalog2006.pdf</a></p>
+<p><a href="https://dico-du-vin.com/metabisulfite-de-potassium-viniculture/" class="uri">https://dico-du-vin.com/metabisulfite-de-potassium-viniculture/</a></p>
+<p><a href="http://wineserver.ucdavis.edu/industry/enology/methods_and_techniques/reagents/citric_acid.html" class="uri">http://wineserver.ucdavis.edu/industry/enology/methods_and_techniques/reagents/citric_acid.html</a></p>
+<p><a href="https://www.researchgate.net/publication/7742357_Yeast_Modulation_of_Wine_Flavor" class="uri">https://www.researchgate.net/publication/7742357_Yeast_Modulation_of_Wine_Flavor</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Malolactic_fermentation" class="uri">https://en.wikipedia.org/wiki/Malolactic_fermentation</a></p>
+<p><a href="http://www.bcawa.ca/winemaking/ml.htm" class="uri">http://www.bcawa.ca/winemaking/ml.htm</a></p>
+<p><a href="http://fertilisation-edu.fr/cultures-fiches-pratiques/vigne.html" class="uri">http://fertilisation-edu.fr/cultures-fiches-pratiques/vigne.html</a></p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+
+
+<div style="position: absolute; width: 0px; height: 0px; overflow: hidden; padding: 0px; border: 0px; margin: 0px;"><div id="MathJax_Font_Test" style="position: absolute; visibility: hidden; top: 0px; left: 0px; width: auto; padding: 0px; border: 0px; margin: 0px; white-space: nowrap; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; font-size: 40px; font-weight: normal; font-style: normal; font-family: MathJax_Main, sans-serif;"></div></div></body></html>
